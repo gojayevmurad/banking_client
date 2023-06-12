@@ -1,7 +1,6 @@
 .main-layout {
-  padding: 30px 0;
   &--content {
     display: grid;
-    grid-template-columns: 1fr 7fr;
+    grid-template-columns: 1.5fr 7fr;
   }
 }
