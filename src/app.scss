@@ -12,7 +12,7 @@
 
 body {
   min-height: 100vh;
-  background-color: var(--color-grey-third);
+  background-color: var(--color-grey-second);
 }
 
 :root {
@@ -39,4 +39,23 @@ body {
 }
 .red {
   color: var(--color-red);
+}
+
+[data-color="red"] {
+  color: var(--color-red);
+}
+[data-color="green"] {
+  color: var(--color-green);
+}
+[data-color="grey"] {
+  color: var(--color-grey);
+}
+[data-bg="red"] {
+  background-color: var(--color-red);
+}
+[data-bg="green"] {
+  background-color: var(--color-green);
+}
+[data-bg="grey"] {
+  background-color: var(--color-grey);
 }
