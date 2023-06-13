@@ -64,9 +64,9 @@ const SideBar = () => {
           >
             <path
               fill="#000"
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4Zm1 2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H5Z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             />
             <path fill="#000" d="M2 9h20v2H2V9zm4 5h6v1H6v-1z" />
           </svg>
@@ -77,7 +77,7 @@ const SideBar = () => {
             xmlns="http://www.w3.org/2000/svg"
             width="36"
             height="36"
-            enable-background="new 0 0 512 512"
+            enableBackground="new 0 0 512 512"
             viewBox="0 0 512 512"
             id="transaction"
           >

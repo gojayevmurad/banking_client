@@ -231,9 +231,10 @@
     overflow: hidden;
     width: 45%;
     position: relative;
+    padding: 20px 0;
     h4 {
       position: absolute;
-      top: 5px;
+      top: 25px;
       left: 20px;
     }
   }
@@ -248,7 +249,7 @@
     background-color: var(--color-white);
     border-radius: 40px;
     position: relative;
-    padding: 30px 0;
+    padding: 50px 0;
     &:first-child {
       width: 55%;
       box-shadow: none;
@@ -256,7 +257,7 @@
     &.lastest_transaction {
       h4 {
         position: absolute;
-        top: 10px;
+        top: 20px;
         padding-left: 20px;
       }
       .lastest_transaction--content {
@@ -406,7 +407,7 @@
     &.earning_categories {
       h4 {
         position: absolute;
-        top: 10px;
+        top: 20px;
         padding-left: 20px;
       }
       .earning_categories--content {

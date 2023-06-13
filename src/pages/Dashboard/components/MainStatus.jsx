@@ -81,7 +81,7 @@ const MainStatus = () => {
                     height="20"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M18.01 0H6.878c-.54 0-.882.443-.882.982v.028c0 .55.33.99.88.99h8.553c.446 0 .668.543.353.857L.29 18.314a.988.988 0 0 0-.001 1.396v.001a.987.987 0 0 0 1.395 0L17.15 4.216a.497.497 0 0 1 .85.352v8.453c0 .544.45.974.996.974h.028c.545 0 .976-.43.976-.974V2.011A2 2 0 0 0 18.01 0"
                     ></path>
                   </svg>
@@ -136,7 +136,7 @@ const MainStatus = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="45"
                     height="45"
-                    enable-background="new 0 0 32 32"
+                    enableBackground="new 0 0 32 32"
                     viewBox="0 0 32 32"
                     id="usdc"
                   >
