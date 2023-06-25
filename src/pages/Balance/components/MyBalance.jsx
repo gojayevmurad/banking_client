@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import { formatMoney } from "../../../utils/index";
-
-const colors = {
-  red: "#ff4a55",
-  orange: "#ffb74a",
-  blue: "#54c5eb",
-  purple: "#6160dc",
-  green: "#00a389",
-};
+import { formatMoney, returnColor } from "../../../utils/index";
 
 const MyBalance = () => {
   const [data, setData] = useState({
@@ -43,8 +35,6 @@ const MyBalance = () => {
       target: 10000,
     },
   ];
-
-  const returnColor = (color) => colors[color];
 
   return (
     <div className="my_balance">

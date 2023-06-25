@@ -1,36 +1,6 @@
 import React, { useState } from "react";
 import ReactECharts from "echarts-for-react";
-import { formatMoney } from "../../../utils";
-
-const ChevronUp = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" id="chevron">
-      <path
-        fill="none"
-        stroke="#00a389"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M13 7 7 1 1 7"
-      ></path>
-    </svg>
-  );
-};
-
-const ChevronDown = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" id="chevron">
-      <path
-        fill="none"
-        stroke="#ff4a55"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="m1 1 6 6 6-6"
-      ></path>
-    </svg>
-  );
-};
+import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
 
 const MainData = () => {
   const [balance, setBalance] = useState(12345789);

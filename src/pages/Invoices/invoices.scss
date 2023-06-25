@@ -1,0 +1,192 @@
+.invoices_page {
+  padding: 0 20px;
+  h3 {
+    font-size: 1.4rem;
+  }
+  .view_invoices {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2%;
+    margin: 30px 0;
+    .box {
+      width: calc(90% / 4);
+      background-color: var(--color-white);
+      border-radius: 25px;
+      padding: 20px 25px;
+      & > div {
+        &:first-child {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .data {
+            p {
+              font-size: 1.1rem;
+              font-weight: 500;
+              opacity: 0.9;
+            }
+            span {
+              font-size: 1.8rem;
+              font-weight: 600;
+              color: var(--color-text);
+            }
+          }
+          .logo {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            display: grid;
+            place-items: center;
+          }
+        }
+        &:last-child {
+          margin-top: 15px;
+          font-weight: 600;
+          span {
+            margin-left: 5px;
+            font-weight: 400;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+  .lastest_invoice {
+    background-color: var(--color-white);
+    padding: 20px 0;
+    margin: 0 2%;
+    border-radius: 30px;
+    margin-bottom: 50px;
+    &--content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      & > div {
+        padding: 15px 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .pagination {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+          button {
+            font-size: 1rem;
+            background-color: transparent;
+            outline: none;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            border: 1px solid var(--color-grey);
+            &.active {
+              border: 1px solid var(--color-purple);
+              background-color: var(--color-purple);
+              color: var(--color-white);
+            }
+          }
+        }
+      }
+    }
+    h4 {
+      align-self: flex-start;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      .head {
+        height: 30px;
+        td {
+          font-weight: 700;
+        }
+      }
+      tr {
+        border-bottom: 1px solid #ddd;
+        &:first-child,
+        &:last-child {
+          border-bottom: none;
+        }
+        td {
+          padding: 10px 0;
+          &:first-child,
+          &:last-child {
+            padding-left: 20px;
+          }
+          &.person {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+            }
+            div {
+              p {
+                font-weight: 700;
+                color: var(--color-text);
+              }
+              span {
+                font-weight: 0.8rem;
+                color: var(--color-grey);
+                font-weight: 300;
+              }
+            }
+          }
+          &.id {
+            font-weight: 700;
+            color: var(--color-text);
+          }
+          &.status {
+            font-weight: 500;
+          }
+          &.date {
+            font-weight: 300;
+            color: var(--color-grey);
+          }
+          &.service {
+            font-weight: 600;
+          }
+          &.actions {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 10px;
+            button {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: none;
+              outline: none;
+              background-color: transparent;
+              font-size: 1.2rem;
+              font-weight: 900;
+              letter-spacing: 1px;
+              cursor: pointer;
+              color: var(--color-grey);
+              transition: 0.3s linear;
+              height: 40px;
+              width: 40px;
+              border-radius: 50%;
+              svg {
+                fill: var(--color-grey);
+                transform: 0.3s linear;
+              }
+              &:hover {
+                background-color: var(--color-purple);
+                color: var(--color-white);
+                svg {
+                  fill: var(--color-white);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
