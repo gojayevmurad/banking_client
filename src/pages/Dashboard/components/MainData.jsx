@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import ReactECharts from "echarts-for-react";
 import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
+import CardItem from "../../../components/CardItem/CardItem";
 
 const MainData = () => {
-  const [balance, setBalance] = useState(12345789);
 
-  const [cardData, setCardData] = useState({
-    lastDigits: 1234,
-    cardHolder: "Rara Avis",
-    validThru: "03/21",
-  });
 
   const [monthlyData, setMonthlyData] = useState({
     income: {
@@ -61,35 +56,7 @@ const MainData = () => {
   };
   return (
     <div className="main_data">
-      <div className="main_data--balance">
-        <div>
-          <div>
-            <p>My Balance</p>
-            <span>${formatMoney(balance)}</span>
-          </div>
-          <div className="circles">
-            <div className="circle"></div>
-            <div className="circle"></div>
-          </div>
-        </div>
-        <div>
-          <p>•••• •••• •••• {cardData.lastDigits}</p>
-        </div>
-        <div className="columns">
-          <div className="column"></div>
-          <div className="column"></div>
-        </div>
-        <div>
-          <div>
-            <p>Card Holder</p>
-            <span>{cardData.cardHolder}</span>
-          </div>
-          <div>
-            <p>Valid Thru</p>
-            <span>{cardData.validThru}</span>
-          </div>
-        </div>
-      </div>
+      <CardItem />
       <div className="main_data--income">
         <div>
           <div>

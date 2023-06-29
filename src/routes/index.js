@@ -7,6 +7,8 @@ import Transaction from '../pages/Transaction';
 import Settings from '../pages/Settings';
 import PrivateRoute from './PrivateRoute';
 
+// Cards Page - Children
+import QuickView from '../pages/Cards/Quickview'
 
 const routes = [
     {
@@ -28,7 +30,14 @@ const routes = [
             },
             {
                 path: 'cards',
-                element: <Cards />
+                element: <Cards />,
+                children: [
+                    {
+                        index: true,
+                        element: <QuickView />
+                    },
+                    
+                ]
             },
             {
                 path: 'transaction',
@@ -41,7 +50,7 @@ const routes = [
         ]
     },
     {
-        path: '/asdf',
+        path: '/settings',
         element: <Settings />
     }
 ]
