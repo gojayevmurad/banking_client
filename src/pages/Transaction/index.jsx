@@ -1,7 +1,13 @@
 import React from "react";
 
+import { Outlet } from "react-router-dom";
+
 const Transaction = () => {
-  return <div>Transaction</div>;
+  return (
+    <div className="transaction_page">
+      <Outlet />
+    </div>
+  );
 };
 
 export default Transaction;

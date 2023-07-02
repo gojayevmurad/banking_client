@@ -85,7 +85,7 @@ const Statistics = () => {
     <div className="statistics">
       <div className="statistics--overview">
         <h4>Overview</h4>
-        <ReactECharts option={overviewOptions} />
+        <ReactECharts option={overviewOptions}   />
       </div>
       <div className="statistics--outcome">
         <h4>Outcome Categories</h4>

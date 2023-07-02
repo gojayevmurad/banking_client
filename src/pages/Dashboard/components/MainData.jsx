@@ -4,8 +4,6 @@ import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
 import CardItem from "../../../components/CardItem/CardItem";
 
 const MainData = () => {
-
-
   const [monthlyData, setMonthlyData] = useState({
     income: {
       increase: true,
@@ -54,9 +52,20 @@ const MainData = () => {
       bottom: "10%",
     },
   };
+
+  const [cardData, setCardData] = useState({
+    lastDigits: 1234,
+    cvc: 123,
+    expiry: "03/21",
+    cardType: "Master",
+    cardHolderName: "Rara Avis",
+    cardBalance: 123456789,
+    bgColor: "purple",
+    color: "white",
+  });
   return (
     <div className="main_data">
-      <CardItem />
+      <CardItem cardData={cardData} />
       <div className="main_data--income">
         <div>
           <div>

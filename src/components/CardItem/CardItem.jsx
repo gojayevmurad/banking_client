@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { formatMoney } from "../../utils";
 
 import "./cardItem.scss";
 
-const CardItem = () => {
-  const [balance, setBalance] = useState(12345789);
-
-  const [cardData, setCardData] = useState({
-    lastDigits: 1234,
-    cardHolder: "Rara Avis",
-    validThru: "03/21",
-  });
+const CardItem = ({ cardData }) => {
   return (
-    <div className="card_item">
+    <div
+      className="card_item"
+      data-bg={cardData.bgColor}
+      data-color={cardData.color}
+    >
       <div>
         <div>
           <p>My Balance</p>
-          <span>${formatMoney(balance)}</span>
+          <span>${formatMoney(cardData.cardBalance)}</span>
         </div>
         <div className="circles">
           <div className="circle"></div>
@@ -33,11 +30,11 @@ const CardItem = () => {
       <div>
         <div>
           <p>Card Holder</p>
-          <span>{cardData.cardHolder}</span>
+          <span>{cardData.cardHolderName}</span>
         </div>
         <div>
           <p>Valid Thru</p>
-          <span>{cardData.validThru}</span>
+          <span>{cardData.expiry}</span>
         </div>
       </div>
     </div>

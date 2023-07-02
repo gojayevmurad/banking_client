@@ -130,7 +130,7 @@ const MainStatus = () => {
         <div className="earning_categories--content">
           {earningCategories.map((item, index) => {
             return (
-              <div className="item">
+              <div key={index} className="item">
                 <div className="logo" data-color={item.color}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

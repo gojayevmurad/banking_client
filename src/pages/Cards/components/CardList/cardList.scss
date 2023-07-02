@@ -1,0 +1,135 @@
+.card_list {
+  margin: 30px 2%;
+  background-color: var(--color-white);
+  border-radius: 40px;
+  box-shadow: var(--box-shadow-1);
+  padding: 35px 40px;
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  &--content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-grey-second);
+      padding: 10px 0;
+      p,
+      span {
+        width: inherit;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+      p {
+        font-weight: 300;
+        color: var(--color-grey);
+      }
+      span {
+        font-weight: 600;
+      }
+      .main {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        width: 250px;
+        .img {
+          height: 70px;
+          aspect-ratio: 14/8;
+          border-radius: 20px;
+          position: relative;
+          overflow: hidden;
+          & > div {
+            background-color: var(--color-blue);
+            position: absolute;
+            z-index: 9;
+            bottom: 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            &.decoration {
+              height: 80%;
+              width: 20px;
+              left: calc(100% - 20px);
+            }
+            &.decoration-2 {
+              height: 70%;
+              width: 20px;
+              left: calc(100% - 30px);
+              opacity: 0.7;
+            }
+          }
+        }
+      }
+      .bank {
+        width: 90px !important;
+      }
+      .name {
+        width: 110px !important;
+      }
+      .card_number {
+        width: 123px !important;
+      }
+      .valid_thru {
+        width: 75px !important;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 25px;
+        button {
+          border: none;
+          outline: none;
+          cursor: pointer;
+          &:not(.more) {
+            color: var(--color-white);
+            width: 80px;
+            padding: 10px 0;
+            border-radius: 20px;
+            font-size: 0.8rem;
+          }
+          &.more {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  &--bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      gap: 5px;
+      button {
+        height: 30px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: transparent !important;
+        border: 1px solid var(--color-grey);
+        cursor: pointer;
+        transition: .2s linear;
+        &.active{
+            background-color: var(--color-purple)!important;
+            color: var(--color-white);
+        }
+        &:hover:not(.active){
+            background-color: var(--color-purple)!important;
+            color: var(--color-white)!important;
+            border-color: var(--color-purple);
+        }
+      }
+    }
+  }
+}
