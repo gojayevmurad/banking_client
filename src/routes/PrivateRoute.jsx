@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const navigate = useNavigate();
-  const [auth, setAuth] = useState(true);
-
-  if (!auth) navigate("/");
+  if (!localStorage.getItem("user")) {
+    return <Navigate to="/login" />;
+  }
 
   return children;
 };

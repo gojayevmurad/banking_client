@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import "./navigation.scss";
 import userPhoto from "../../assets/user_photo.jpg";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
+
+  const logoutHandler = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <div className="navigation">
@@ -74,6 +81,9 @@ const Navigation = () => {
             <img src={userPhoto} alt="" />
           </div>
           <p className="user_name">Rara Avis</p>
+          <div onMouseDown={logoutHandler} className="logout">
+            Hesabdan çıxış
+          </div>
         </div>
       </div>
     </div>

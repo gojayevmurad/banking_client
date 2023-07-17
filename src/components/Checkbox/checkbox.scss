@@ -1,0 +1,21 @@
+#checkbox {
+  border: none;
+  outline: none;
+  padding: 0;
+  height: 45px;
+  aspect-ratio: 2/1;
+  background-color: var(--color-purple);
+  color: var(--color-white);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  transition: 0.3s linear;
+  position: relative;
+  .circle {
+    height: 35px;
+    width: 35px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+  }
+}

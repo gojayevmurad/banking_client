@@ -5,6 +5,7 @@ import Invoices from "../pages/Invoices";
 import Cards from "../pages/Cards";
 import Transaction from "../pages/Transaction";
 import Settings from "../pages/Settings";
+import Login from "../layouts/Login";
 import PrivateRoute from "./PrivateRoute";
 
 import TransactionHistory from "../pages/Transaction/TransactionHistory";
@@ -53,11 +54,10 @@ const routes = [
     ],
   },
   {
-    path: "/settings",
-    element: <Settings />,
+    path: "/login",
+    element: <Login />,
   },
 ];
-
 const authMap = (routes) => {
   return routes.map((route) => {
     if (route?.auth) {

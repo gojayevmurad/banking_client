@@ -1,0 +1,81 @@
+.settings_page {
+  padding: 0 20px;
+  h3 {
+    font-size: 1.4rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+  &--content {
+    margin: 30px 2%;
+    display: flex;
+    background-color: var(--color-white);
+    box-shadow: var(--box-shadow-1);
+    border-radius: 40px;
+    padding: 30px;
+    .preference {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding-right: 50px;
+      padding-left: 20px;
+      border-right: 2px solid var(--color-grey-second);
+      margin-right: 50px;
+      & > div {
+        & > p {
+          margin-bottom: 10px;
+          color: var(--color-grey);
+          font-weight: 500;
+        }
+      }
+    }
+    .account {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 50px;
+        row-gap: 30px;
+        input {
+          width: 350px;
+          padding: 10px;
+          border-radius: 20px;
+          border: 1px solid var(--color-grey);
+          outline: none;
+          font-weight: 500;
+          &:disabled {
+            cursor: not-allowed;
+            color: var(--color-white);
+            background-color: var(--color-grey);
+          }
+        }
+        textarea {
+          width: 100%;
+          resize: none !important;
+          height: 250px;
+          padding: 10px;
+          border-radius: 20px;
+          border: 1px solid var(--color-grey);
+          outline: none;
+          font-weight: 500;
+        }
+        p {
+          margin-bottom: 10px;
+          color: var(--color-grey);
+        }
+        button {
+          grid-column: 2;
+          border: none;
+          outline: none;
+          height: 40px;
+          background-color: var(--color-purple);
+          color: var(--color-white);
+          border-radius: 40px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
