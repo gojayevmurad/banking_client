@@ -11,7 +11,11 @@
   align-items: center;
   margin: 30px 0;
   padding: 0 2%;
+  .card_item {
+    box-shadow: var(--box-shadow-1) !important;
+  }
   &--income {
+    box-shadow: var(--box-shadow-1);
     width: 30%;
     height: 250px;
     overflow: hidden;
@@ -67,6 +71,7 @@
     }
   }
   &--expense {
+    box-shadow: var(--box-shadow-1);
     width: 30%;
     height: 250px;
     overflow: hidden;
@@ -135,6 +140,7 @@
     width: 45%;
     position: relative;
     padding: 20px 0;
+    box-shadow: var(--box-shadow-1);
     h4 {
       position: absolute;
       top: 25px;
@@ -155,6 +161,7 @@
     position: relative;
     padding: 50px 0;
     padding-bottom: 10px;
+    box-shadow: var(--box-shadow-1) !important;
     &:first-child {
       width: 55%;
       box-shadow: none;

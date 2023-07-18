@@ -8,10 +8,9 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import { formatMoney } from "../../../../utils";
 
-const Cards = ({cardList}) => {
+const Cards = ({ cardList }) => {
   const limitPercent = 50;
   const [currentIndex, setCurrentIndex] = useState(0);
-
 
   const slideChangeHandler = (swiper) => {
     setCurrentIndex(swiper.activeIndex);
@@ -31,13 +30,14 @@ const Cards = ({cardList}) => {
             onSlideChange={slideChangeHandler}
             className="mySwiper"
           >
-            {cardList.map((cardData, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  <CardItem cardData={cardData} />
-                </SwiperSlide>
-              );
-            })}
+            {cardList.length &&
+              cardList.map((cardData, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <CardItem cardData={cardData} />
+                  </SwiperSlide>
+                );
+              })}
           </Swiper>
         </div>
         <div className="desc">
@@ -63,53 +63,57 @@ const Cards = ({cardList}) => {
         </div>
       </div>
       <div className="border"></div>
-      <div className="card_details">
-        <div>
-          <div className="topup">
-            <div>
-              <h5>Top Up</h5>
-              <p>Lorem ipsum dolor sit amet consectetur.</p>
-            </div>
-            <button>
-              <i class="fa-solid fa-arrow-up"></i>
-            </button>
-          </div>
-          <div className="withdraw">
-            <div>
-              <h5>Withdraw</h5>
-              <p>Lorem ipsum dolor sit amet consectetur.</p>
-            </div>
-            <button>
-              <i className="fa-solid fa-arrow-down"></i>
-            </button>
-          </div>
-        </div>
-        <div className="card_information">
-          <h5>Card Information</h5>
+      {cardList.length && (
+        <div className="card_details">
           <div>
-            <div>
-              <p>Card Name</p>
-              <span>{cardList[currentIndex].cardName}</span>
+            <div className="topup">
+              <div>
+                <h5>Top Up</h5>
+                <p>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
+              <button>
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
             </div>
-            <div>
-              <p>Card Number</p>
-              <span>•••• •••• •••• {cardList[currentIndex].lastDigits}</span>
+            <div className="withdraw">
+              <div>
+                <h5>Withdraw</h5>
+                <p>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
+              <button>
+                <i className="fa-solid fa-arrow-down"></i>
+              </button>
             </div>
+          </div>
+          <div className="card_information">
+            <h5>Card Information</h5>
             <div>
-              <p>Bank</p>
-              <span>Bank Info</span>
-            </div>
-            <div>
-              <p>Name</p>
-              <span>{cardList[currentIndex].cardHolderName}</span>
-            </div>
-            <div>
-              <p>Valid Thru</p>
-              <span>{cardList[currentIndex].expiry}</span>
+              <div>
+                <p>Card Name</p>
+                <span>{cardList[currentIndex].cardName}</span>
+              </div>
+              <div>
+                <p>Card Number</p>
+                <span>
+                  •••• •••• •••• {cardList[currentIndex].cardNumber % 10000}
+                </span>
+              </div>
+              <div>
+                <p>Bank</p>
+                <span>Bank Info</span>
+              </div>
+              <div>
+                <p>Name</p>
+                <span>{cardList[currentIndex].holderName}</span>
+              </div>
+              <div>
+                <p>Valid Thru</p>
+                <span>{cardList[currentIndex].validThru}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

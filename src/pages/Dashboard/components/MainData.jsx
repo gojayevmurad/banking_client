@@ -3,6 +3,13 @@ import ReactECharts from "echarts-for-react";
 import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
 import CardItem from "../../../components/CardItem/CardItem";
 
+import { useSelector } from "react-redux";
+
+const defaultCard = {
+  bgColor: "purple",
+  color: "white",
+};
+
 const MainData = () => {
   const [monthlyData, setMonthlyData] = useState({
     income: {
@@ -53,19 +60,16 @@ const MainData = () => {
     },
   };
 
-  const [cardData, setCardData] = useState({
-    lastDigits: 1234,
-    cvc: 123,
-    expiry: "03/21",
-    cardType: "Master",
-    cardHolderName: "Rara Avis",
-    cardBalance: 123456789,
-    bgColor: "purple",
-    color: "white",
-  });
+  const mainCard = useSelector((state) => state.cards.cards);
+
   return (
     <div className="main_data">
-      <CardItem cardData={cardData} />
+      <CardItem
+        cardData={
+          mainCard.data && mainCard.data.length ? mainCard.data[0] : defaultCard
+        }
+        loading={mainCard.loading}
+      />
       <div className="main_data--income">
         <div>
           <div>

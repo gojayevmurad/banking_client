@@ -8,12 +8,14 @@ import SideBar from "../../components/SideBar";
 import Navigation from "../../components/Navigation";
 
 import { getUserInfoesAsync } from "../../redux/profile/profileSlice";
+import { getCardsAsync } from "../../redux/cards/cardsSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserInfoesAsync(toast));
+    dispatch(getCardsAsync(toast))
   }, []);
 
   return (

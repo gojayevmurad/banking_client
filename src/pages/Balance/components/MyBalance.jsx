@@ -52,7 +52,7 @@ const MyBalance = () => {
         <span>•••• •••• •••• {data.lastDigits}</span>
       </div>
       <div className="targets">
-        {earningCategories.length &&
+        {earningCategories.length > 0 &&
           earningCategories.map((item, index) => {
             return (
               <div key={index} className="target-item">

@@ -3,38 +3,48 @@ import { formatMoney } from "../../utils";
 
 import "./cardItem.scss";
 
-const CardItem = ({ cardData }) => {
+const CardItem = ({ cardData, loading }) => {
   return (
     <div
       className="card_item"
-      data-bg={cardData.bgColor}
-      data-color={cardData.color}
+      data-loading={loading ? "true" : "false"}
+      data-bg={cardData?.bgColor}
+      data-color={cardData?.color}
     >
-      <div>
+      {!cardData.status && (
+        <div className="blocked">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+      )}
+      <div className="card_item--main">
         <div>
-          <p>My Balance</p>
-          <span>${formatMoney(cardData.cardBalance)}</span>
+          <p>Balans</p>
+          <span>
+            ${cardData?.cardBalance && formatMoney(cardData.cardBalance)}
+          </span>
         </div>
         <div className="circles">
           <div className="circle"></div>
           <div className="circle"></div>
         </div>
       </div>
-      <div>
-        <p>•••• •••• •••• {cardData.lastDigits}</p>
+      <div children className="card_item--card_number">
+        <p>
+          •••• •••• •••• {cardData.cardNumber && cardData.cardNumber % 10000}
+        </p>
       </div>
       <div className="columns">
         <div className="column"></div>
         <div className="column"></div>
       </div>
-      <div>
+      <div className="card_item--data">
         <div>
-          <p>Card Holder</p>
-          <span>{cardData.cardHolderName}</span>
+          <p>Kart Sahibi</p>
+          <span>{cardData?.holderName}</span>
         </div>
         <div>
-          <p>Valid Thru</p>
-          <span>{cardData.expiry}</span>
+          <p>Etibarlılıq</p>
+          <span>{cardData?.validThru}</span>
         </div>
       </div>
     </div>

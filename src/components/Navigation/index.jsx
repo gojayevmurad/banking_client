@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./navigation.scss";
 import userPhoto from "../../assets/user_photo.jpg";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navigation = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const userInfoes = useSelector((state) => state.profile.userInfoes.data);
 
   const logoutHandler = () => {
     localStorage.removeItem("user");
@@ -80,7 +82,9 @@ const Navigation = () => {
           <div className="user_photo">
             <img src={userPhoto} alt="" />
           </div>
-          <p className="user_name">Rara Avis</p>
+          <p className="user_name">
+            {userInfoes?.name + " " + userInfoes?.surname}
+          </p>
           <div onMouseDown={logoutHandler} className="logout">
             Hesabdan çıxış
           </div>

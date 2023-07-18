@@ -8,7 +8,7 @@ import MainStatus from "./components/MainStatus";
 const Dashboard = () => {
   return (
     <div className="dashboard_page">
-      <h3>Dashboard</h3>
+      <h3>Əsas</h3>
       <MainData />
       <Statistics />
       <MainStatus />

@@ -14,6 +14,7 @@
       padding: 20px 15px;
       background-color: var(--color-white);
       border-radius: 40px;
+      box-shadow: var(--box-shadow-1);
     }
     .my_balance {
       h5 {
@@ -222,7 +223,10 @@
     margin-bottom: 50px;
     padding: 0 2%;
   }
-
+  .transfer_history,
+  .invoices_history {
+    box-shadow: var(--box-shadow-1);
+  }
   .transfer_history {
     background-color: var(--color-white);
     border-radius: 40px;

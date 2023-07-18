@@ -21,7 +21,7 @@ export const cardsSlice = createSlice({
   },
 });
 
-export const getCardsAsync = (navigate, toast) => async (dispatch) => {
+export const getCardsAsync = (toast) => async (dispatch) => {
   dispatch(setCardsData({ loading: true }));
   try {
     const response = await getCards();
