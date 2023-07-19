@@ -11,7 +11,7 @@ const SelectBox = ({ option, options, setOption }) => {
     <div className={active ? "active" : ""} id="selectbox">
       <p className="active_option" onMouseDown={() => setActive(!active)}>
         <span>{option}</span>
-        <i class="fa-solid fa-chevron-up"></i>
+        <i className="fa-solid fa-chevron-up"></i>
       </p>
       <div className="selectbox--list">
         {options.map((option, index) => (

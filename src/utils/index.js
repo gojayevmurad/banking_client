@@ -5,6 +5,12 @@ export const formatMoney = (money) => {
   });
 };
 
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+};
+
 export const ChevronUp = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" id="chevron">

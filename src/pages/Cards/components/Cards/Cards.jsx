@@ -54,7 +54,7 @@ const Cards = ({ cardList }) => {
               {formatMoney(500000)}
             </p>
           </div>
-          <button>
+          <button onClick={()=>console.log('ok')}>
             <div className="icon">
               <i className="fa-solid fa-plus"></i>
             </div>
@@ -72,7 +72,7 @@ const Cards = ({ cardList }) => {
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
               </div>
               <button>
-                <i class="fa-solid fa-arrow-up"></i>
+                <i className="fa-solid fa-arrow-up"></i>
               </button>
             </div>
             <div className="withdraw">

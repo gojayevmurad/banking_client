@@ -13,7 +13,7 @@ const CardItem = ({ cardData, loading }) => {
     >
       {!cardData.status && (
         <div className="blocked">
-          <i class="fa-solid fa-lock"></i>
+          <i className="fa-solid fa-lock"></i>
         </div>
       )}
       <div className="card_item--main">

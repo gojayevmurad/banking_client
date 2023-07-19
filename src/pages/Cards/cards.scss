@@ -4,3 +4,45 @@
     font-size: 1.4rem;
   }
 }
+
+.new_card_popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-black-opacity);
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .content {
+    background-color: var(--color-white);
+    height: 400px;
+    width: 650px;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow-1);
+  }
+}
+.new_card_slider {
+  margin-top: 20px;
+  border-radius: 40px !important;
+  overflow: hidden;
+}
+
+.swiper-pagination-bullet {
+  width: 15px !important;
+  height: 15px !important;
+  text-align: center;
+  line-height: 15px;
+  font-size: 10px;
+  color: #000;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #007aff;
+}
