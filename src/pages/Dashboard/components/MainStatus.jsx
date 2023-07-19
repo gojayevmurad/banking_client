@@ -60,7 +60,7 @@ const MainStatus = () => {
   return (
     <div className="main_status">
       <div className="lastest_transaction">
-        <h4>Lastest Transaction</h4>
+        <h4>Son Tranzaksiyalar</h4>
         <div className="lastest_transaction--content">
           {lastestTransaction.map((item, index) => {
             return (
@@ -116,17 +116,9 @@ const MainStatus = () => {
             );
           })}
         </div>
-        <div className="controls">
-          <p>Showing 1-5 from 100 data</p>
-          <div className="pagination">
-            <button className="active">1</button>
-            <button>2</button>
-            <button>3</button>
-          </div>
-        </div>
       </div>
       <div className="earning_categories">
-        <h4>Earning Categories</h4>
+        <h4>Gəlir Kateqoriyaları</h4>
         <div className="earning_categories--content">
           {earningCategories.map((item, index) => {
             return (
@@ -175,7 +167,7 @@ const MainStatus = () => {
                   <p>
                     ${formatMoney(item.amount)}{" "}
                     <span data-color={item.color}>
-                      /from ${formatMoney(item.target)}
+                      /dan ${formatMoney(item.target)}
                     </span>
                   </p>
                 </div>

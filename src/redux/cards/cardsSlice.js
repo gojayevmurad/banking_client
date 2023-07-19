@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCards } from "../../api/cards";
+import { changeCardStatus, getCards, newCard } from "../../api/cards";
 
 const initialState = {
   cards: {
     loading: false,
     data: null,
+  },
+  newCard: {
+    loading: false,
+    data: null,
+  },
+  changeCardStatus: {
+    loading: false,
   },
 };
 
@@ -15,6 +22,18 @@ export const cardsSlice = createSlice({
     setCardsData: (state, action) => {
       state.cards = {
         ...state.cards,
+        ...action.payload,
+      };
+    },
+    setNewCardData: (state, action) => {
+      state.newCard = {
+        ...state.newCard,
+        ...action.payload,
+      };
+    },
+    setChangeCardStatusData: (state, action) => {
+      state.changeCardStatus = {
+        ...state.changeCardStatus,
         ...action.payload,
       };
     },
@@ -32,6 +51,31 @@ export const getCardsAsync = (toast) => async (dispatch) => {
   dispatch(setCardsData({ loading: false }));
 };
 
-export const { setCardsData } = cardsSlice.actions;
+export const newCardAsync = (toast, data) => async (dispatch) => {
+  dispatch(setNewCardData({ loading: true }));
+  try {
+    const response = await newCard(data);
+    response && dispatch(setCardsData({ data: response.data }));
+    response && toast.success(response.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setNewCardData({ loading: false }));
+};
+
+export const changeCardStatusAsync = (toast, id) => async (dispatch) => {
+  dispatch(setChangeCardStatusData({ loading: true }));
+  try {
+    const response = await changeCardStatus(id);
+    response && dispatch(setCardsData({ data: response.data }));
+    response && toast.success(response.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setChangeCardStatusData({ loading: false }));
+};
+
+export const { setCardsData, setNewCardData, setChangeCardStatusData } =
+  cardsSlice.actions;
 
 export default cardsSlice.reducer;

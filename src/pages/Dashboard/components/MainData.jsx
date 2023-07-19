@@ -112,7 +112,7 @@ const MainData = () => {
               </svg>
             </div>
             <div className="income-details">
-              <p>Income</p>
+              <p>Gəlir</p>
               <span>${formatMoney(monthlyData.income.value)}</span>
             </div>
           </div>
@@ -125,7 +125,7 @@ const MainData = () => {
                 <p className="red">-{monthlyData.income.percent}%</p>
               )}
             </p>
-            <span>last month</span>
+            <span>sonuncu ay</span>
           </div>
         </div>
         <div>
@@ -177,7 +177,7 @@ const MainData = () => {
               </svg>
             </div>
             <div className="expense-details">
-              <p>Income</p>
+              <p>Xərc</p>
               <span>${formatMoney(monthlyData.expense.value)}</span>
             </div>
           </div>
@@ -190,7 +190,7 @@ const MainData = () => {
                 <p className="red">-{monthlyData.expense.percent}%</p>
               )}
             </p>
-            <span>last month</span>
+            <span>sonuncu ay</span>
           </div>
         </div>
         <div>

@@ -84,11 +84,11 @@ const Statistics = () => {
   return (
     <div className="statistics">
       <div className="statistics--overview">
-        <h4>Overview</h4>
+        <h4>Ümumi baxış</h4>
         <ReactECharts option={overviewOptions} />
       </div>
       <div className="statistics--outcome">
-        <h4>Outcome Categories</h4>
+        <h4>Xərc Kateqoriyaları</h4>
         <ReactECharts option={outcomeOptions} />
       </div>
     </div>

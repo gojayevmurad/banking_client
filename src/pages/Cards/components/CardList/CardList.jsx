@@ -1,7 +1,16 @@
 import React from "react";
 import "./cardList.scss";
+import { useDispatch } from "react-redux";
+import { changeCardStatusAsync } from "../../../../redux/cards/cardsSlice";
+import { toast } from "react-hot-toast";
 
 const CardList = ({ cardList }) => {
+  const dispatch = useDispatch();
+
+  const cardStatusHandler = (id) => {
+    dispatch(changeCardStatusAsync(toast, id));
+  };
+
   return (
     <div className="card_list">
       <h4>Card List</h4>
@@ -29,14 +38,17 @@ const CardList = ({ cardList }) => {
               </div>
               <div className="card_number">
                 <p>Card Number</p>
-                <span>•••• •••• •••• {card.lastDigits}</span>
+                <span>•••• •••• •••• {card.cardNumber % 10000}</span>
               </div>
               <div className="valid_thru">
                 <p>Valid Thru</p>
-                <span>{card.expiry}</span>
+                <span>{card.validThru}</span>
               </div>
               <div className="actions">
-                <button data-bg={card.status ? "green" : "red"}>
+                <button
+                  onClick={() => cardStatusHandler(card._id)}
+                  data-bg={card.status ? "green" : "red"}
+                >
                   {card.status ? "Active" : "Unactive"}
                 </button>
                 <button className="more">•••</button>
@@ -45,7 +57,10 @@ const CardList = ({ cardList }) => {
           ))}
       </div>
       <div className="card_list--bottom">
-        <div>Showing 1-5 from {cardList.length} data</div>
+        <div>
+          Showing 1-{cardList.length < 5 ? cardList.length : 5} from{" "}
+          {cardList.length} data
+        </div>
         <div className="pagination">
           <div className="pagination--item">
             <button className="active">1</button>

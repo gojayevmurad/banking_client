@@ -79,14 +79,14 @@ export const rejectTransactionAsync = (id, toast) => async (dispatch) => {
 };
 
 export const getTransactionsHistoryAsync = (toast) => async (dispatch) => {
-  setTransactionsHistoryData({ loading: true });
+  dispatch(setTransactionsHistoryData({ loading: true }));
   try {
     const response = await getTransactionsHistory();
     response && dispatch(setTransactionsHistoryData({ data: response.data }));
   } catch (err) {
     toast.error(err.message);
   }
-  setTransactionsHistoryData({ loading: false });
+  dispatch(setTransactionsHistoryData({ loading: false }));
 };
 
 export const {

@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import { formatMoney } from "../../../../utils";
 
-const Cards = ({ cardList }) => {
+const Cards = ({ cardList, setShowNewCardPopup }) => {
   const limitPercent = 50;
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -54,7 +54,7 @@ const Cards = ({ cardList }) => {
               {formatMoney(500000)}
             </p>
           </div>
-          <button onClick={()=>console.log('ok')}>
+          <button onClick={() => setShowNewCardPopup((b) => (b = !b))}>
             <div className="icon">
               <i className="fa-solid fa-plus"></i>
             </div>
@@ -64,7 +64,10 @@ const Cards = ({ cardList }) => {
       </div>
       <div className="border"></div>
       {cardList.length && (
-        <div className="card_details">
+        <div
+          data-active={cardList[currentIndex].status}
+          className="card_details"
+        >
           <div>
             <div className="topup">
               <div>

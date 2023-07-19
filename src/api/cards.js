@@ -8,4 +8,8 @@ const newCard = (body) => {
   return axiosClient.post("/api/cards/new-card", body);
 };
 
-export { getCards, newCard };
+const changeCardStatus = (id) => {
+  return axiosClient.put(`/api/cards/change-status/${id}`);
+};
+
+export { getCards, newCard, changeCardStatus };

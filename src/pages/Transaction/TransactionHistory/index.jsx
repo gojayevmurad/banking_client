@@ -5,77 +5,24 @@ import { toast } from "react-hot-toast";
 import "./transactionHistory.scss";
 import { formatDate, formatMoney } from "../../../utils";
 import { getTransactionsHistoryAsync } from "../../../redux/transactions/transactionsSlice";
+import Loading from "../../../components/Loading";
 
 const TransactionHistory = () => {
   const dispatch = useDispatch();
+  const mainLoading = useSelector(
+    (state) => state.transactions.transactionHistory.loading
+  );
 
   useEffect(() => {
     dispatch(getTransactionsHistoryAsync(toast));
   }, []);
-
-  // const [transactionHistoryData, setTransactionHistory] = useState([
-
-  //   {
-  //     title: "Tony Soap",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Unpaid",
-  //     date: "March 25, 2021",
-  //     service: "Cleaning Service",
-  //     amount: 23443,
-  //   },
-  //   {
-  //     title: "Tony Soap",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Unpaid",
-  //     date: "March 25, 2021",
-  //     service: "Cleaning Service",
-  //     amount: 23443,
-  //   },
-  //   {
-  //     title: "Johnny Ahmad",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Paid",
-  //     date: "March 25, 2021",
-  //     service: "Web Maintenance",
-  //     amount: 34523,
-  //   },
-  //   {
-  //     title: "Karen Hope",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Pending",
-  //     date: "March 25, 2021",
-  //     service: "Server Maintenance",
-  //     amount: 23452,
-  //   },
-  //   {
-  //     title: "Nilla Vita",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Paid",
-  //     date: "March 25, 2021",
-  //     service: "Server Maintenance",
-  //     amount: 21342,
-  //   },
-  // ]);
-  //   {
-  //     title: "Samanta William",
-  //     email: "samanta9@gmail.com",
-  //     _id: "INV-001-123456",
-  //     status: "Sent",
-  //     date: "March 25, 2021",
-  //     service: "Server Maintenance",
-  //     amount: 1000,
-  //   },
 
   const transactionHistoryData = useSelector(
     (state) => state.transactions.transactionHistory
   );
   return (
     <div className="transaction_history">
+      {mainLoading && <Loading />}
       <div className="transaction_history--actions">
         <h3 className="header">Transaction History</h3>
         <button>Download</button>
