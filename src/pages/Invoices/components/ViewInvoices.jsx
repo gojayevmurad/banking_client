@@ -34,7 +34,7 @@ const ViewInvoices = () => {
       <div className="box invoice_sent">
         <div>
           <div className="data">
-            <p data-color="grey">Invoice Sent</p>
+            <p data-color="grey">Göndərilən</p>
             <span>${formatMoney(invoicesData.invoiceSent.data)}</span>
           </div>
           <div data-bg="purple" className="logo">
@@ -59,14 +59,14 @@ const ViewInvoices = () => {
           {invoicesData.invoiceSent.increase ? <ChevronUp /> : <ChevronDown />}
           <p data-color={invoicesData.invoiceSent.color}>
             + {invoicesData.invoiceSent.percent}%
-            <span data-color="grey"> than last month</span>
+            <span data-color="grey"> keçən aya nisbətən</span>
           </p>
         </div>
       </div>
       <div className="box paid_invoice">
         <div>
           <div className="data">
-            <p data-color="grey">Paid Invoice</p>
+            <p data-color="grey">Ödənilən</p>
             <span>${formatMoney(invoicesData.paidInvoice.data)}</span>
           </div>
           <div data-bg="blue" className="logo">
@@ -87,14 +87,14 @@ const ViewInvoices = () => {
           {invoicesData.paidInvoice.increase ? <ChevronUp /> : <ChevronDown />}
           <p data-color={invoicesData.paidInvoice.color}>
             + {invoicesData.paidInvoice.percent}%
-            <span data-color="grey"> than last month</span>
+            <span data-color="grey"> keçən aya nisbətən</span>
           </p>
         </div>
       </div>
       <div className="box pending_invoice">
         <div>
           <div className="data">
-            <p data-color="grey">Pending Invoice</p>
+            <p data-color="grey">Gözlənilən</p>
             <span>${formatMoney(invoicesData.pendingInvoice.data)}</span>
           </div>
           <div data-bg="orange" className="logo">
@@ -129,14 +129,14 @@ const ViewInvoices = () => {
           )}
           <p data-color={invoicesData.pendingInvoice.color}>
             + {invoicesData.pendingInvoice.percent}%
-            <span data-color="grey"> than last month</span>
+            <span data-color="grey"> keçən aya nisbətən</span>
           </p>
         </div>
       </div>
       <div className="box unpaid_invoice">
         <div>
           <div className="data">
-            <p data-color="grey">Unpaid Invoice</p>
+            <p data-color="grey">Ödənilməyən</p>
             <span>${invoicesData.unpaidInvoice.data}</span>
           </div>
           <div data-bg="red" className="logo">
@@ -176,7 +176,7 @@ const ViewInvoices = () => {
           )}
           <p data-color={invoicesData.unpaidInvoice.color}>
             + {invoicesData.unpaidInvoice.percent}%
-            <span data-color="grey"> than last month</span>
+            <span data-color="grey"> keçən aya nisbətən</span>
           </p>
         </div>
       </div>

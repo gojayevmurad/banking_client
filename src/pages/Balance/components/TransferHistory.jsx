@@ -38,7 +38,7 @@ const TransferHistory = () => {
 
   return (
     <div className="transfer_history">
-      <h4>Transfer History</h4>
+      <h4>Transfer Keçmişi</h4>
       <div className="transfer_history--content">
         {transferHistory.map((item, index) => {
           return (
@@ -68,10 +68,10 @@ const TransferHistory = () => {
                 className="status"
               >
                 {item.status == -1
-                  ? "Canceled"
+                  ? "İmtina edildi"
                   : item.status == 0
-                  ? "Pending"
-                  : "Completed"}
+                  ? "Gözlənilir"
+                  : "Tamamlandı"}
               </p>
               <button className="more_btn">•••</button>
             </div>
@@ -79,7 +79,7 @@ const TransferHistory = () => {
         })}
       </div>
       <div className="controls">
-        <p>Showing 1-5 from 100 data</p>
+        <p>Göstərilir 1-5-i 100-dən</p>
         <div className="pagination">
           <button className="active">1</button>
           <button>2</button>

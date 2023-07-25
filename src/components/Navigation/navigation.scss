@@ -35,7 +35,7 @@
       justify-content: center;
       align-items: center;
       gap: 20px;
-      & > div {
+      & > button {
         position: relative;
         cursor: pointer;
         border: 1px solid var(--color-grey);
@@ -52,13 +52,15 @@
         }
         &.active {
           &::after {
-            content: "";
+            content: attr(data-count);
+            color: var(--color-white);
+            line-height: 20px;
             position: absolute;
             top: 5px;
-            right: 0;
-            transform: translateY(-50%);
-            height: 15px;
-            width: 15px;
+            left: calc(100% - 5px);
+            transform: translate(-50%, -50%);
+            height: 20px;
+            width: 20px;
             background-color: var(--color-purple);
             border-radius: 50%;
           }

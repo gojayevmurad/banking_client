@@ -9,13 +9,21 @@ import Navigation from "../../components/Navigation";
 
 import { getUserInfoesAsync } from "../../redux/profile/profileSlice";
 import { getCardsAsync } from "../../redux/cards/cardsSlice";
+import {
+  getPendingContactsAsync,
+  getUserContactsAsync,
+} from "../../redux/contacts/contactsSlice";
+import { getLastWeekTransactionsAsync } from "../../redux/transactions/transactionsSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserInfoesAsync(toast));
-    dispatch(getCardsAsync(toast))
+    dispatch(getCardsAsync(toast));
+    dispatch(getUserContactsAsync(toast));
+    dispatch(getLastWeekTransactionsAsync(toast));
+    dispatch(getPendingContactsAsync(toast));
   }, []);
 
   return (

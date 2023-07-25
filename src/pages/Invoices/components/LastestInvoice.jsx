@@ -49,15 +49,15 @@ const LastestInvoice = () => {
   return (
     <div className="lastest_invoice">
       <div className="lastest_invoice--content">
-        <h4>Lastest Invoice</h4>
+        <h4>Son Fakturalar</h4>
         <table>
           <tr className="head">
-            <td>Recipient</td>
-            <td>Invoice</td>
+            <td>Alıcı</td>
+            <td>Faktura</td>
             <td>Status</td>
-            <td>Date</td>
-            <td>Service</td>
-            <td>Action</td>
+            <td>Tarix</td>
+            <td>Servis</td>
+            <td></td>
           </tr>
           {lastestInvoice.map((item, index) => {
             return (

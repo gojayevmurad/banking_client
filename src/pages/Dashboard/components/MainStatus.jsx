@@ -1,35 +1,14 @@
 import React, { useState } from "react";
 
-import { formatMoney } from "../../../utils";
+import { formatDate, formatMoney, formatTime } from "../../../utils";
+import { useSelector } from "react-redux";
 
 const MainStatus = () => {
   const totalTransaction = 3;
-  const [lastestTransaction, setLastestTransaction] = useState([
-    {
-      title: "Samantha Wall",
-      income: false,
-      status: -1,
-      amount: 70312,
-      date: "09 Dec, 2020",
-      time: "04:23:32 AM",
-    },
-    {
-      title: "Samantha Wall",
-      income: false,
-      status: 1,
-      amount: 50036,
-      date: "25 Jan, 2021",
-      time: "04:34:45 AM",
-    },
-    {
-      title: "Kren Hopo",
-      income: true,
-      status: 0,
-      amount: 30031,
-      date: "15 Jul, 2022",
-      time: "10:44:45 PM",
-    },
-  ]);
+
+  const lastestTransactions = useSelector(
+    (state) => state.transactions.transactionHistory.data
+  );
 
   const earningCategories = [
     {
@@ -57,64 +36,84 @@ const MainStatus = () => {
       target: 10000,
     },
   ];
+
   return (
     <div className="main_status">
       <div className="lastest_transaction">
         <h4>Son Tranzaksiyalar</h4>
         <div className="lastest_transaction--content">
-          {lastestTransaction.map((item, index) => {
-            return (
-              <div key={index}>
-                <div
-                  className="icon"
-                  data-bg={
-                    item.status == -1
-                      ? "red"
-                      : item.status == 0
-                      ? "grey"
-                      : "green"
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18.01 0H6.878c-.54 0-.882.443-.882.982v.028c0 .55.33.99.88.99h8.553c.446 0 .668.543.353.857L.29 18.314a.988.988 0 0 0-.001 1.396v.001a.987.987 0 0 0 1.395 0L17.15 4.216a.497.497 0 0 1 .85.352v8.453c0 .544.45.974.996.974h.028c.545 0 .976-.43.976-.974V2.011A2 2 0 0 0 18.01 0"
-                    ></path>
-                  </svg>
-                </div>
-                <div className="person">
-                  <p>{item.title}</p>
-                  <span>Transfer</span>
-                </div>
-                <p className="amount">$ {formatMoney(item.amount)}</p>
-                <div className="date">
-                  <p>{item.date}</p>
-                  <span>{item.time}</span>
-                </div>
-                <p
-                  data-color={
-                    item.status == -1
-                      ? "red"
-                      : item.status == 0
-                      ? "grey"
-                      : "green"
-                  }
-                  className="status"
-                >
-                  {item.status == -1
-                    ? "Canceled"
-                    : item.status == 0
-                    ? "Pending"
-                    : "Completed"}
-                </p>
-                <button className="more_btn">•••</button>
-              </div>
-            );
-          })}
+          {lastestTransactions &&
+            lastestTransactions.map((item, index) => {
+              if (index < 5) {
+                return (
+                  <div key={index}>
+                    <div
+                      className="icon"
+                      data-bg={
+                        item.amount < 0 && item.status != "Pending"
+                          ? "red"
+                          : item.status == true
+                          ? "green"
+                          : "grey"
+                      }
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M18.01 0H6.878c-.54 0-.882.443-.882.982v.028c0 .55.33.99.88.99h8.553c.446 0 .668.543.353.857L.29 18.314a.988.988 0 0 0-.001 1.396v.001a.987.987 0 0 0 1.395 0L17.15 4.216a.497.497 0 0 1 .85.352v8.453c0 .544.45.974.996.974h.028c.545 0 .976-.43.976-.974V2.011A2 2 0 0 0 18.01 0"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div className="person">
+                      <p>{item.sender}</p>
+                      <span>Transfer</span>
+                    </div>
+                    <p className="amount">
+                      {item.amount < 0 ? (
+                        <p
+                          data-color={item.status == "Pending" ? "grey" : "red"}
+                        >
+                          - $ {formatMoney(-item.amount)}
+                        </p>
+                      ) : (
+                        <p
+                          data-color={
+                            item.status == "Pending" ? "grey" : "green"
+                          }
+                        >
+                          $ {formatMoney(item.amount)}
+                        </p>
+                      )}
+                    </p>
+                    <div className="date">
+                      <p>{formatDate(item.date)}</p>
+                      <span>{formatTime(item.date)}</span>
+                    </div>
+                    <p
+                      data-color={
+                        item.status == false
+                          ? "red"
+                          : item.status == true
+                          ? "green"
+                          : "grey"
+                      }
+                      className="status"
+                    >
+                      {item.status == false
+                        ? "Canceled"
+                        : item.status == "Pending"
+                        ? "Pending"
+                        : "Completed"}
+                    </p>
+                    <button className="more_btn">•••</button>
+                  </div>
+                );
+              }
+            })}
         </div>
       </div>
       <div className="earning_categories">
@@ -175,7 +174,6 @@ const MainStatus = () => {
             );
           })}
         </div>
-        <button>View more</button>
       </div>
     </div>
   );

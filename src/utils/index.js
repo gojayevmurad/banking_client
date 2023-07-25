@@ -11,6 +11,18 @@ export const formatDate = (dateString) => {
   return date.toLocaleDateString("en-US", options);
 };
 
+export function formatTime(dateString) {
+  const date = new Date(dateString);
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  const amPm = hour < 12 ? "AM" : "PM";
+  const formatedTime = `${hour.toString().padStart(2, "0")}:${minute
+    .toString()
+    .padStart(2, "0")}:${second.toString().padStart(2, "0")} ${amPm}`;
+  return formatedTime;
+}
+
 export const ChevronUp = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" id="chevron">

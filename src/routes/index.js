@@ -6,6 +6,8 @@ import Cards from "../pages/Cards";
 import Transaction from "../pages/Transaction";
 import Settings from "../pages/Settings";
 import Login from "../layouts/Login";
+import Contacts from "../pages/Contacts";
+import Chat from "../pages/Chat";
 import PrivateRoute from "./PrivateRoute";
 
 import TransactionHistory from "../pages/Transaction/TransactionHistory";
@@ -48,8 +50,16 @@ const routes = [
         ],
       },
       {
+        path: "contacts",
+        element: <Contacts />,
+      },
+      {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
       },
     ],
   },

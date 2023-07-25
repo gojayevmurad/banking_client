@@ -1,24 +1,24 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
 
-const Statistics = () => {
+const Statistics = ({ incomes, expenses }) => {
   const overviewOptions = {
     legend: {
-      data: ["This Week", "Last Week"],
+      data: ["Xərclər", "Gəlirlər"],
       right: 20,
       top: 5,
     },
     xAxis: {
       type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      data: ["B.e", "Ç.a", "Ç", "C.a", "C", "Şən", "Baz"],
     },
     yAxis: {
       type: "value",
     },
     series: [
       {
-        name: "This Week",
-        data: [75, 12, 90, 94, 29, 33, 50],
+        name: "Xərclər",
+        data: expenses.data,
         type: "bar",
         smooth: true,
         itemStyle: {
@@ -27,8 +27,8 @@ const Statistics = () => {
         },
       },
       {
-        name: "Last Week",
-        data: [50, 102, 94, 43, 21, 51, 50],
+        name: "Gəlirlər",
+        data: incomes.data,
         type: "bar",
         smooth: true,
         itemStyle: {

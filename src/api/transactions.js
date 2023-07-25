@@ -1,7 +1,7 @@
 import { axiosClient } from ".";
 
-const getTransactionsHistory = () => {
-  return axiosClient.get("/api/transaction/get-history");
+const getTransactionsHistory = (params) => {
+  return axiosClient.get("/api/transaction/get-history", { params });
 };
 
 const setNewTransaction = (body) => {
@@ -9,7 +9,7 @@ const setNewTransaction = (body) => {
 };
 
 const getPendingTransactions = () => {
-  return axiosClient.get("/api/transaction/get-list");
+  return axiosClient.get("/api/transaction/get-pendings");
 };
 
 const acceptTransaction = (id) => {
@@ -20,10 +20,19 @@ const rejectTransaction = (id) => {
   return axiosClient.put(`/api/transaction/reject/${id}`);
 };
 
+const getLastWeekTransactions = () => {
+  return axiosClient.get("/api/transaction/last-week");
+};
+
 export {
   getTransactionsHistory,
   setNewTransaction,
   getPendingTransactions,
   rejectTransaction,
   acceptTransaction,
+  getLastWeekTransactions,
 };
+
+// User validation failed: transactionsHistory.0.status:
+// Cast to Boolean failed for value
+// "Pending" (type string) at path "status" because of "CastError"

@@ -117,6 +117,9 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          border: none;
+          outline: none;
+          background-color: transparent;
           .img {
             cursor: pointer;
             border: 1px solid transparent;
@@ -132,11 +135,24 @@
               transform-origin: center;
               transition: 0.15s linear;
             }
-            &:hover {
+          }
+          &:hover,
+          &[data-active="true"] {
+            .img {
               border: 1px solid var(--color-grey);
               img {
                 transform: scale(0.85);
               }
+            }
+          }
+          &[data-active="true"] {
+            .img {
+              background-color: var(--color-purple);
+            }
+          }
+          &[data-active="false"] {
+            img {
+              filter: grayscale(1);
             }
           }
         }
@@ -164,6 +180,8 @@
         }
       }
       form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         & > label {
           display: flex;
           justify-content: center;
@@ -171,13 +189,13 @@
           flex-direction: column;
           gap: 8px;
           margin-bottom: 10px;
-          p {
+          & > p {
             font-weight: 600;
           }
-          input {
+          & > input {
             border-radius: 30px;
             outline: none;
-            width: 50%;
+            width: 90%;
             background-color: var(--color-grey-third);
             border: 2px solid var(--color-grey-second);
             padding: 8px 20px;
@@ -186,11 +204,12 @@
           }
         }
 
-        div {
+        & > div:not(#selectbox) {
           display: flex;
           justify-content: space-between;
           margin: 10px 0;
           align-items: center;
+          grid-column: span 2;
           label {
             input {
               margin-right: 10px;

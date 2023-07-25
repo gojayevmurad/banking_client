@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   acceptTransaction,
+  getLastWeekTransactions,
   getPendingTransactions,
   getTransactionsHistory,
   rejectTransaction,
@@ -22,9 +23,12 @@ const initialState = {
   },
   newTransaction: {
     loading: false,
-    data: null,
   },
   pendingTransactions: {
+    loading: false,
+    data: null,
+  },
+  lastWeek: {
     loading: false,
     data: null,
   },
@@ -64,10 +68,28 @@ export const transactionsSlice = createSlice({
         ...action.payload,
       };
     },
+    setLastWeekData: (state, action) => {
+      state.lastWeek = {
+        ...state.lastWeek,
+        ...action.payload,
+      };
+    },
   },
 });
 
-export const rejectTransactionAsync = (id, toast) => async (dispatch) => {
+export const setNewTransactionAsync = (toast, body) => async (dispatch) => {
+  dispatch(setNewTransactionData({ loading: true }));
+  try {
+    const response = await setNewTransaction(body);
+    response && dispatch(setTransactionsHistoryData({ data: response.data }));
+    response && toast.success(response.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setNewTransactionData({ loading: true }));
+};
+
+export const rejectTransactionAsync = (toast, id) => async (dispatch) => {
   dispatch(setRejectingTransactionData({ laoding: true }));
   try {
     const response = await rejectTransaction(id);
@@ -78,15 +100,53 @@ export const rejectTransactionAsync = (id, toast) => async (dispatch) => {
   dispatch(setRejectingTransactionData({ laoding: false }));
 };
 
-export const getTransactionsHistoryAsync = (toast) => async (dispatch) => {
-  dispatch(setTransactionsHistoryData({ loading: true }));
+export const getTransactionsHistoryAsync =
+  (toast, params) => async (dispatch) => {
+    dispatch(setTransactionsHistoryData({ loading: true }));
+    try {
+      const response = await getTransactionsHistory(params);
+      response && dispatch(setTransactionsHistoryData({ data: response.data }));
+      response &&
+        dispatch(setTransactionsHistoryData({ total: response.total }));
+    } catch (err) {
+      toast.error(err.message);
+    }
+    dispatch(setTransactionsHistoryData({ loading: false }));
+  };
+
+export const getPendingTransactionsAsync = (toast) => async (dispatch) => {
+  dispatch(setPendingTransactionData({ loading: true }));
   try {
-    const response = await getTransactionsHistory();
-    response && dispatch(setTransactionsHistoryData({ data: response.data }));
+    const response = await getPendingTransactions();
+    response && dispatch(setPendingTransactionData({ data: response.data }));
   } catch (err) {
     toast.error(err.message);
   }
-  dispatch(setTransactionsHistoryData({ loading: false }));
+  dispatch(setPendingTransactionData({ loading: false }));
+};
+
+export const acceptingTransactionAsync = (toast, id) => async (dispatch) => {
+  dispatch(setAcceptingTransactionsData({ loading: true }));
+  try {
+    const response = await acceptTransaction(id);
+    response && toast.success(response.message);
+    dispatch(getPendingTransactionsAsync(toast));
+    dispatch(getTransactionsHistoryAsync(toast));
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setAcceptingTransactionsData({ loading: false }));
+};
+
+export const getLastWeekTransactionsAsync = (toast) => async (dispatch) => {
+  dispatch(setLastWeekData({ loading: true }));
+  try {
+    const response = await getLastWeekTransactions();
+    response && dispatch(setLastWeekData({ data: response.data }));
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setLastWeekData({ loading: false }));
 };
 
 export const {
@@ -95,6 +155,7 @@ export const {
   setPendingTransactionData,
   setRejectingTransactionData,
   setTransactionsHistoryData,
+  setLastWeekData,
 } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

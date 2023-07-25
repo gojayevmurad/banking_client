@@ -1,0 +1,252 @@
+.messages_page {
+  padding: 0 20px;
+  &--header {
+    h3 {
+      font-size: 1.4rem;
+    }
+  }
+  .content {
+    margin: 30px 2%;
+    background-color: var(--color-white);
+    box-shadow: var(--box-shadow-1);
+    padding: 20px;
+    border-radius: 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 4fr;
+    gap: 30px;
+    height: 750px;
+    .users_list {
+      &--header {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        div {
+          position: relative;
+          height: 35px;
+          flex-basis: auto;
+          width: calc(100% - 45px);
+          input {
+            width: 100%;
+            height: 100%;
+            padding-left: 32px;
+            outline: none;
+            border: 1px solid var(--color-grey);
+            border-radius: 30px;
+          }
+          svg {
+            position: absolute;
+            top: 50%;
+            left: 6px;
+            transform: translateY(-50%);
+            fill: var(--color-purple);
+          }
+        }
+        button {
+          height: 35px;
+          width: 35px;
+          border-radius: 50%;
+          background-color: var(--color-purple);
+          border: none;
+          outline: none;
+          color: var(--color-white);
+          cursor: pointer;
+        }
+      }
+      &--content {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        flex-direction: column;
+        gap: 15px;
+        &__item {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          & > div {
+            &:first-child {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 10px;
+              .img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                overflow: hidden;
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+              .desc {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: start;
+                p {
+                  font-weight: 600;
+                  color: var(--color-text);
+                }
+                span {
+                  font-weight: 400;
+                  color: var(--color-grey);
+                }
+              }
+            }
+            &:last-child {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              align-items: start;
+              p {
+                font-weight: 400;
+                color: var(--color-grey);
+                font-size: 0.8rem;
+              }
+              span {
+                font-weight: 400;
+                color: var(--color-white);
+                background-color: var(--color-red);
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 auto;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+      }
+    }
+    .active_chat {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      &--head {
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__data {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          .img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .desc {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            p {
+              font-weight: 600;
+              color: var(--color-text);
+            }
+            span {
+              font-size: 0.9rem;
+              color: var(--color-grey);
+              font-weight: 600;
+              position: relative;
+              margin-left: 15px;
+              display: inline-block;
+              &.online {
+                &::after {
+                  content: "";
+                  display: inline-block;
+                  position: absolute;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  background-color: var(--color-green);
+                  left: -8px;
+                  top: 50%;
+                  transform: translate(-50%, -50%);
+                }
+              }
+            }
+          }
+        }
+        &__actions {
+          .more {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: 1.2rem;
+            color: var(--color-grey);
+            cursor: pointer;
+          }
+        }
+      }
+      &--messages {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: scroll;
+        height: 560px !important;
+        position: relative;
+        .message {
+          width: min-content;
+          padding: 8px 16px;
+          border-radius: 10px;
+          margin-right: 10px;
+          &.contact-message {
+            background-color: var(--color-grey-second);
+            color: var(--color-text);
+          }
+          &.your-message {
+            background-color: var(--color-purple);
+            color: var(--color-white);
+            align-self: flex-end;
+          }
+        }
+        &[data-loading="true"] {
+          .message {
+            display: none;
+          }
+          &::after {
+            content: "";
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 3px solid var(--color-grey);
+            border-radius: 50%;
+            border-bottom-color: transparent;
+            animation: main-loading 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
+              infinite;
+          }
+        }
+      }
+      &--new {
+        height: 60px;
+        form {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          height: 60px;
+          input {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

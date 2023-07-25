@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./settings.scss";
 import Checkbox from "../../components/Checkbox";
 import SelectBox from "../../components/SelectBox";
@@ -9,6 +9,14 @@ const Settings = () => {
   const [language, setLanguage] = useState("English");
 
   const langOptions = ["English", "Azərbaycanca"];
+
+  useEffect(() => {
+    if (!theme) {
+      // document.querySelector("body").classList.remove("dark");
+    } else {
+      // document.querySelector("body").classList.add("dark");
+    }
+  }, [theme]);
 
   return (
     <div className="settings_page">

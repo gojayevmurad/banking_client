@@ -69,7 +69,7 @@ const InvoicesHistory = () => {
 
   return (
     <div className="invoices_history">
-      <h4>Invoices Sent</h4>
+      <h4>Göndərilən Fakturalar</h4>
       <div className="invoices_history--content">
         {invoices.data.map((item, index) => {
           return (
@@ -88,7 +88,7 @@ const InvoicesHistory = () => {
           );
         })}
       </div>
-      {invoices.total > 5 && <button className="view_more">View more</button>}
+      {invoices.total > 5 && <button className="view_more">Daha çox</button>}
     </div>
   );
 };

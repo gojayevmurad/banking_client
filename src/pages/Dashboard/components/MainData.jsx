@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactECharts from "echarts-for-react";
 import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
 import CardItem from "../../../components/CardItem/CardItem";
@@ -10,21 +10,23 @@ const defaultCard = {
   color: "white",
 };
 
-const MainData = () => {
-  const [monthlyData, setMonthlyData] = useState({
+const MainData = ({ incomes, expenses }) => {
+  const mainCard = useSelector((state) => state.cards.cards);
+
+  const weeklyData = {
     income: {
       increase: true,
-      value: 45741.3,
+      value: incomes.total,
       percent: 0.5,
     },
     expense: {
       increase: false,
-      value: 32123.5,
+      value: expenses.total,
       percent: 0.5,
     },
-  });
+  };
 
-  const options = {
+  const sameOptions = {
     color: ["#6160dc"],
     xAxis: {
       type: "category",
@@ -35,17 +37,6 @@ const MainData = () => {
       type: "value",
       show: false,
     },
-    series: [
-      {
-        data: [0, 932, 901, 934, 1290, 1330, 4000],
-        type: "line",
-        smooth: true,
-        symbolSize: 0,
-        lineStyle: {
-          width: 3,
-        },
-      },
-    ],
     tooltip: {
       trigger: "axis",
       textStyle: {
@@ -60,7 +51,33 @@ const MainData = () => {
     },
   };
 
-  const mainCard = useSelector((state) => state.cards.cards);
+  const expenseOptions = {
+    series: [
+      {
+        data: expenses.data,
+        type: "line",
+        smooth: true,
+        symbolSize: 0,
+        lineStyle: {
+          width: 3,
+        },
+      },
+    ],
+  };
+
+  const incomeOptions = {
+    series: [
+      {
+        data: incomes.data,
+        type: "line",
+        smooth: true,
+        symbolSize: 0,
+        lineStyle: {
+          width: 3,
+        },
+      },
+    ],
+  };
 
   return (
     <div className="main_data">
@@ -112,26 +129,29 @@ const MainData = () => {
               </svg>
             </div>
             <div className="income-details">
-              <p>Gəlir</p>
-              <span>${formatMoney(monthlyData.income.value)}</span>
+              {/* <p>Gəlir</p> */}
+              <span>${formatMoney(weeklyData.income.value)}</span>
             </div>
           </div>
           <div>
-            <p>
-              {monthlyData.income.increase ? <ChevronUp /> : <ChevronDown />}
-              {monthlyData.income.increase ? (
-                <p className="green">+{monthlyData.income.percent}%</p>
+            <div>
+              {weeklyData.income.increase ? <ChevronUp /> : <ChevronDown />}
+              {weeklyData.income.increase ? (
+                <p className="green">+{weeklyData.income.percent}%</p>
               ) : (
-                <p className="red">-{monthlyData.income.percent}%</p>
+                <p className="red">-{weeklyData.income.percent}%</p>
               )}
-            </p>
-            <span>sonuncu ay</span>
+            </div>
+            <span>son həftə</span>
           </div>
         </div>
         <div>
           <ReactECharts
             style={{ width: "100%", height: "100%" }}
-            option={options}
+            option={{
+              ...incomeOptions,
+              ...sameOptions,
+            }}
           />
         </div>
       </div>
@@ -178,25 +198,25 @@ const MainData = () => {
             </div>
             <div className="expense-details">
               <p>Xərc</p>
-              <span>${formatMoney(monthlyData.expense.value)}</span>
+              <span>${formatMoney(weeklyData.expense.value)}</span>
             </div>
           </div>
           <div>
-            <p>
-              {monthlyData.expense.increase ? <ChevronUp /> : <ChevronDown />}
-              {monthlyData.expense.increase ? (
-                <p className="green">+{monthlyData.expense.percent}%</p>
+            <div>
+              {weeklyData.expense.increase ? <ChevronUp /> : <ChevronDown />}
+              {weeklyData.expense.increase ? (
+                <p className="green">+{weeklyData.expense.percent}%</p>
               ) : (
-                <p className="red">-{monthlyData.expense.percent}%</p>
+                <p className="red">-{weeklyData.expense.percent}%</p>
               )}
-            </p>
-            <span>sonuncu ay</span>
+            </div>
+            <span>son həftə</span>
           </div>
         </div>
         <div>
           <ReactECharts
             style={{ width: "100%", height: "100%" }}
-            option={options}
+            option={{ ...sameOptions, ...expenseOptions }}
           />
         </div>
       </div>

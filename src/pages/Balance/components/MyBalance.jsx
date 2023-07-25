@@ -38,15 +38,15 @@ const MyBalance = () => {
 
   return (
     <div className="my_balance">
-      <h5>My Balance</h5>
+      <h5>Balansım</h5>
       <p className="money">${formatMoney(data.amount)}</p>
       <div className="desc">
         <div>
-          <p>Card Holder</p>
+          <p>Kart Sahibi</p>
           <span>{data.cartHolder}</span>
         </div>
         <div>
-          <p>Valid Thru</p>
+          <p>Etibarlıdır</p>
           <span>{data.validThru}</span>
         </div>
         <span>•••• •••• •••• {data.lastDigits}</span>
