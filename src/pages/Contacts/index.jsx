@@ -10,8 +10,10 @@ import {
   sendContactRequestAsync,
 } from "../../redux/contacts/contactsSlice";
 import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const Contacts = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [requestEmail, setRequestEmail] = useState("");
@@ -69,9 +71,9 @@ const Contacts = () => {
         </form>
         <div className="contacts--list">
           {pendingsList != null &&
-            pendingsList.map((item) => {
+            pendingsList.map((item, index) => {
               return (
-                <div className="contacts--list__item pending">
+                <div key={index} className="contacts--list__item pending">
                   <div className="contacts--list__item--img">
                     <img
                       src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
@@ -116,9 +118,9 @@ const Contacts = () => {
               );
             })}
           {contactsList != null &&
-            contactsList.map((item) => {
+            contactsList.map((item, index) => {
               return (
-                <div className="contacts--list__item">
+                <div key={index} className="contacts--list__item">
                   <div className="contacts--list__item--img">
                     <img
                       src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
@@ -130,7 +132,14 @@ const Contacts = () => {
                     <span className="email">{item.email}</span>
                   </div>
                   <div className="contacts--list__item--actions">
-                    <button className="message">
+                    <button
+                      onClick={() =>
+                        navigate("/chat", {
+                          state: {id : item._id},
+                        })
+                      }
+                      className="message"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"

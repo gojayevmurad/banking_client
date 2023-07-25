@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./settings.scss";
 import Checkbox from "../../components/Checkbox";
 import SelectBox from "../../components/SelectBox";
+import { useSelector } from "react-redux";
+
+const langOptions = ["English", "Azərbaycanca"];
 
 const Settings = () => {
   const [notification, setNotification] = useState(true);
   const [theme, setTheme] = useState(true);
   const [language, setLanguage] = useState("English");
 
-  const langOptions = ["English", "Azərbaycanca"];
+  const userInfoes = useSelector((state) => state.profile.userInfoes.data);
 
   useEffect(() => {
     if (!theme) {
@@ -44,13 +47,25 @@ const Settings = () => {
         <div className="account">
           <h4>Account</h4>
           <form>
-            <div className="id">
-              <p>ID</p>
-              <input type="text" name="" id="" value="12345" disabled />
+            <div className="data">
+              <p>Name</p>
+              <input
+                type="text"
+                name=""
+                id=""
+                value={userInfoes?.name + " " + userInfoes?.surname}
+                disabled
+              />
             </div>
-            <div className="phone">
-              <p>Phone</p>
-              <input type="text" name="" id="" placeholder="0555555555" />
+            <div className="email">
+              <p>Email</p>
+              <input
+                type="email"
+                name=""
+                id=""
+                value={userInfoes?.email}
+                disabled
+              />
             </div>
             <div className="secret_word">
               <p>Secret Word</p>

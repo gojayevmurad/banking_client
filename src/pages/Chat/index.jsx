@@ -1,30 +1,90 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { socket } from "../../socket";
 
 import "./chat.scss";
 
 const Chat = () => {
+  const location = useLocation();
+
   const [activeChatId, setActiveChatId] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState({});
+
   const usersList = useSelector((state) => state.contacts.userContacts.data);
 
-  const item = {
-    name: "Murad",
-    surname: "Gojayev",
-    email: "muradgojayev@gmail.com",
-    isActive: true,
-    messages: [
-      {
-        content: "Salam.",
-        fromFriend: true,
-        date: "12:45 PM",
-      },
-      {
-        content: "Salam.",
-        fromFriend: false,
-        date: "12:45 PM",
-      },
-    ],
+  const changeActiveChatHandler = (id) => {
+    activeChatId == id ? setActiveChatId("") : setActiveChatId(id);
   };
+
+  const selectedPersonData =
+    usersList && usersList.find((item) => item._id == activeChatId);
+
+  const item = {
+    isActive: true,
+  };
+  //#region send & recieve message
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    socket.emit("send_message", { message, recepientId: activeChatId });
+
+    const newMessage = {
+      content: message,
+      fromFriend: false,
+      date: Date.now(),
+    };
+
+    setMessages((prevMessages) => ({
+      ...prevMessages,
+      [activeChatId]: [...(prevMessages[activeChatId] || []), newMessage],
+    }));
+    setMessage("");
+  };
+
+  const handleReceiveMessage = (data) => {
+    const newMessage = {
+      fromFriend: true,
+      content: data.message,
+      date: Date.now(),
+    };
+    console.log(data);
+    setMessages((prevMessages) => ({
+      ...prevMessages,
+      [data.userId]: [...(prevMessages[data.userId] || []), newMessage],
+    }));
+  };
+  //#endregion send & recieve message
+
+  //#region scroll down
+  useEffect(() => {
+    const listItem = document.querySelector(".active_chat--messages");
+    if (listItem) {
+      listItem.scrollTop = listItem.scrollHeight + 38;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (activeChatId) {
+      const listItem = document.querySelector(".active_chat--messages");
+      if (listItem) {
+        listItem.scrollTop = listItem.scrollHeight + 38;
+      }
+    }
+  }, [activeChatId]);
+  //#endregion scroll down
+
+  useEffect(() => {
+    socket.on("receive_message", handleReceiveMessage);
+    return () => {
+      socket.off("receive_message", handleReceiveMessage);
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    location.state && setActiveChatId(location.state.id);
+  }, []);
 
   return (
     <div className="messages_page">
@@ -50,9 +110,14 @@ const Chat = () => {
           </form>
           <div className="users_list--content">
             {usersList &&
-              usersList.map((item) => {
+              usersList.map((item, index) => {
                 return (
-                  <div className="users_list--content__item">
+                  <button
+                    data-active={activeChatId == item._id ? true : false}
+                    onClick={() => changeActiveChatHandler(item._id)}
+                    className="users_list--content__item"
+                    key={index}
+                  >
                     <div>
                       <div className="img">
                         <img
@@ -65,57 +130,73 @@ const Chat = () => {
                         <span>{item.email}</span>
                       </div>
                     </div>
-                    <div>
+                    <div className="details">
                       <p>12:45 PM</p>
                       <span>2</span>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
           </div>
         </div>
-        <div className="active_chat">
-          <div className="active_chat--head">
-            <div className="active_chat--head__data">
-              <div className="img">
-                <img
-                  src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="desc">
-                <p>{item.name + " " + item.surname}</p>
-                <span className={item.isActive ? "online" : "offline"}>
-                  {item.isActive ? "Online" : "Offline"}
-                </span>
-              </div>
-            </div>
-            <div className="active_chat--head__actions">
-              <button className="more">•••</button>
-            </div>
-          </div>
-          <div data-loading={false} className="active_chat--messages">
-            {item.messages.map((message) => {
-              return (
-                <div
-                  className={
-                    message.fromFriend
-                      ? "contact-message message"
-                      : "your-message message"
-                  }
-                >
-                  <p>{message.content}</p>
+        {activeChatId.trim().length != 0 ? (
+          <div className="active_chat">
+            <>
+              <div className="active_chat--head">
+                <div className="active_chat--head__data">
+                  <div className="img">
+                    <img
+                      src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
+                      alt=""
+                    />
+                  </div>
+                  <div className="desc">
+                    <p>
+                      {selectedPersonData.name +
+                        " " +
+                        selectedPersonData.surname}
+                    </p>
+                    <span className={item.isActive ? "online" : "offline"}>
+                      {item.isActive ? "Online" : "Offline"}
+                    </span>
+                  </div>
                 </div>
-              );
-            })}
+                <div className="active_chat--head__actions">
+                  <button className="more">•••</button>
+                </div>
+              </div>
+              <div data-loading={false} className="active_chat--messages">
+                {messages[activeChatId] &&
+                  messages[activeChatId].map((message, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={
+                          message.fromFriend
+                            ? "contact-message message"
+                            : "your-message message"
+                        }
+                      >
+                        <p>{message.content}</p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </>
+            <div className="active_chat--new">
+              <form onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <button type="submit">Göndər</button>
+              </form>
+            </div>
           </div>
-          <div className="active_chat--new">
-            <form>
-              <input type="text" />
-              <button type="submit">Göndər</button>
-            </form>
-          </div>
-        </div>
+        ) : (
+          <div className="unactive_chat">Seçim edin</div>
+        )}
       </div>
     </div>
   );
