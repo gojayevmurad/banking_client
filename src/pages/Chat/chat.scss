@@ -69,7 +69,6 @@
           background-color: transparent;
           border-radius: 10px;
           padding: 8px;
-          transition: 0.2s linear;
           * {
             transition: 0.2s linear;
           }
@@ -225,10 +224,12 @@
         height: 560px !important;
         position: relative;
         .message {
-          width: min-content;
+          width: max-content;
+          max-width: 500px;
           padding: 8px 16px;
           border-radius: 10px;
           margin-right: 10px;
+          
           &.contact-message {
             background-color: var(--color-grey-second);
             color: var(--color-text);
