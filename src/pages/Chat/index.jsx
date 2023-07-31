@@ -44,6 +44,7 @@ const Chat = () => {
   };
 
   const handleReceiveMessage = (data) => {
+    console.log(data);
     const newMessage = {
       fromFriend: true,
       content: data.message,

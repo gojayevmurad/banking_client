@@ -3,7 +3,7 @@ import "./balance.scss";
 import MyBalance from "./components/MyBalance";
 import TransferInvoice from "./components/TransferInvoice";
 import TransferHistory from "./components/TransferHistory";
-import InvoicesHistory from "./components/InvoicesHistory";
+import CategoriesList from "./components/CategoriesList";
 
 const Balance = () => {
   return (
@@ -15,7 +15,7 @@ const Balance = () => {
       </div>
       <div className="balance_page--bottom">
         <TransferHistory />
-        <InvoicesHistory />
+        <CategoriesList />
       </div>
     </div>
   );

@@ -11,6 +11,9 @@ const defaultCard = {
 };
 
 const MainData = ({ incomes, expenses }) => {
+  const chartsLoading = useSelector(
+    (state) => state.transactions.lastWeek.loading
+  );
   const mainCard = useSelector((state) => state.cards.cards);
 
   const weeklyData = {
@@ -152,6 +155,7 @@ const MainData = ({ incomes, expenses }) => {
               ...incomeOptions,
               ...sameOptions,
             }}
+            showLoading={chartsLoading}
           />
         </div>
       </div>
@@ -217,6 +221,7 @@ const MainData = ({ incomes, expenses }) => {
           <ReactECharts
             style={{ width: "100%", height: "100%" }}
             option={{ ...sameOptions, ...expenseOptions }}
+            showLoading={chartsLoading}
           />
         </div>
       </div>

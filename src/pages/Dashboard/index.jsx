@@ -6,7 +6,6 @@ import Statistics from "./components/Statistics";
 import MainStatus from "./components/MainStatus";
 import { useSelector } from "react-redux";
 
-
 const getStatisticsData = (statistics) => {
   if (statistics == null) {
     return { data: [0, 0, 0, 0, 0, 0, 0], total: 0 };
@@ -34,8 +33,8 @@ const Dashboard = () => {
   return (
     <div className="dashboard_page">
       <h3>Əsas</h3>
-      <MainData incomes={incomes} expenses={expenses}/>
-      <Statistics incomes={incomes} expenses={expenses}/>
+      <MainData incomes={incomes} expenses={expenses} />
+      <Statistics incomes={incomes} expenses={expenses} />
       <MainStatus />
     </div>
   );

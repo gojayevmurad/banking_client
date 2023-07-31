@@ -13,7 +13,10 @@ import {
   getPendingContactsAsync,
   getUserContactsAsync,
 } from "../../redux/contacts/contactsSlice";
-import { getLastWeekTransactionsAsync } from "../../redux/transactions/transactionsSlice";
+import {
+  getLastWeekTransactionsAsync,
+  getTransactionsHistoryAsync,
+} from "../../redux/transactions/transactionsSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ const MainLayout = () => {
     dispatch(getUserContactsAsync(toast));
     dispatch(getLastWeekTransactionsAsync(toast));
     dispatch(getPendingContactsAsync(toast));
+    dispatch(getTransactionsHistoryAsync(toast));
   }, []);
 
   return (

@@ -78,14 +78,6 @@ const TransferHistory = () => {
           );
         })}
       </div>
-      <div className="controls">
-        <p>Göstərilir 1-5-i 100-dən</p>
-        <div className="pagination">
-          <button className="active">1</button>
-          <button>2</button>
-          <button>3</button>
-        </div>
-      </div>
     </div>
   );
 };

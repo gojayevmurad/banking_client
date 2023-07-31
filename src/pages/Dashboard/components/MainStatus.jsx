@@ -7,7 +7,7 @@ const MainStatus = () => {
   const totalTransaction = 3;
 
   const lastestTransactions = useSelector(
-    (state) => state.transactions.transactionHistory.data
+    (state) => state.transactions.transactionHistory
   );
 
   const earningCategories = [
@@ -41,9 +41,12 @@ const MainStatus = () => {
     <div className="main_status">
       <div className="lastest_transaction">
         <h4>Son Tranzaksiyalar</h4>
-        <div className="lastest_transaction--content">
-          {lastestTransactions &&
-            lastestTransactions.map((item, index) => {
+        <div
+          className="lastest_transaction--content"
+          data-loading={lastestTransactions.loading}
+        >
+          {lastestTransactions.data &&
+            lastestTransactions.data.map((item, index) => {
               if (index < 5) {
                 return (
                   <div key={index}>
@@ -77,7 +80,11 @@ const MainStatus = () => {
                         <p
                           data-color={item.status == "Pending" ? "grey" : "red"}
                         >
-                          - $ {formatMoney(-item.amount)}
+                          {item.status == "Pending" ? (
+                            <>$ {formatMoney(-item.amount)}</>
+                          ) : (
+                            <>- $ {formatMoney(-item.amount)}</>
+                          )}
                         </p>
                       ) : (
                         <p
@@ -104,10 +111,10 @@ const MainStatus = () => {
                       className="status"
                     >
                       {item.status == false
-                        ? "Canceled"
+                        ? "İmtina edildi"
                         : item.status == "Pending"
-                        ? "Pending"
-                        : "Completed"}
+                        ? "Gözlənilir"
+                        : "Tamamlandı"}
                     </p>
                     <button className="more_btn">•••</button>
                   </div>

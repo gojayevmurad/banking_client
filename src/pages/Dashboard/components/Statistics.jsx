@@ -1,7 +1,11 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
+import { useSelector } from "react-redux";
 
 const Statistics = ({ incomes, expenses }) => {
+  const chartsLoading = useSelector(
+    (state) => state.transactions.lastWeek.loading
+  );
   const overviewOptions = {
     legend: {
       data: ["Xərclər", "Gəlirlər"],
@@ -61,11 +65,11 @@ const Statistics = ({ incomes, expenses }) => {
         type: "pie",
         radius: ["40%", "70%"],
         data: [
-          { value: 20, name: "Apple" },
-          { value: 20, name: "Grapes" },
-          { value: 20, name: "Pineapples" },
-          { value: 20, name: "Oranges" },
-          { value: 20, name: "Bananas" },
+          { value: 134, name: "Apple" },
+          { value: 203, name: "Grapes" },
+          { value: 203, name: "Pineapples" },
+          { value: 230, name: "Oranges" },
+          { value: 520, name: "Bananas" },
         ],
         emphasis: {
           scale: true,
@@ -85,11 +89,11 @@ const Statistics = ({ incomes, expenses }) => {
     <div className="statistics">
       <div className="statistics--overview">
         <h4>Ümumi baxış</h4>
-        <ReactECharts option={overviewOptions} />
+        <ReactECharts option={overviewOptions} showLoading={chartsLoading} />
       </div>
       <div className="statistics--outcome">
         <h4>Xərc Kateqoriyaları</h4>
-        <ReactECharts option={outcomeOptions} />
+        <ReactECharts option={outcomeOptions}/>
       </div>
     </div>
   );
