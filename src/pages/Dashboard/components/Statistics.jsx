@@ -2,10 +2,35 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 import { useSelector } from "react-redux";
 
+const returnExpenseData = (data) => {
+  if (data) {
+    return data.map((item) => {
+      return { value: item.amount, name: item.categoryName };
+    });
+  } else {
+    return [];
+  }
+};
+
+const returnLegendName = (data) => {
+  if (data) {
+    return data.map((item) => item.categoryName);
+  }
+  return [];
+};
+
 const Statistics = ({ incomes, expenses }) => {
-  const chartsLoading = useSelector(
+  const overviewLoading = useSelector(
     (state) => state.transactions.lastWeek.loading
   );
+
+  const outcomeCategories = useSelector(
+    (state) => state.categories.expenseCategories.data
+  );
+  const outcomeLoading = useSelector(
+    (state) => state.categories.expenseCategories.loading
+  );
+
   const overviewOptions = {
     legend: {
       data: ["Xərclər", "Gəlirlər"],
@@ -49,6 +74,7 @@ const Statistics = ({ incomes, expenses }) => {
     },
     grid: { top: "20%", right: 40, bottom: 20, left: 40 },
   };
+
   const outcomeOptions = {
     tooltip: {
       trigger: "item",
@@ -57,20 +83,14 @@ const Statistics = ({ incomes, expenses }) => {
       orient: "vertical",
       right: "15%",
       top: "30%",
-      data: ["Apple", "Grapes", "Pineapples", "Oranges", "Bananas"],
+      data: returnLegendName(outcomeCategories),
       icon: "pin",
     },
     series: [
       {
         type: "pie",
         radius: ["40%", "70%"],
-        data: [
-          { value: 134, name: "Apple" },
-          { value: 203, name: "Grapes" },
-          { value: 203, name: "Pineapples" },
-          { value: 230, name: "Oranges" },
-          { value: 520, name: "Bananas" },
-        ],
+        data: returnExpenseData(outcomeCategories),
         emphasis: {
           scale: true,
           scaleSize: 20,
@@ -89,11 +109,11 @@ const Statistics = ({ incomes, expenses }) => {
     <div className="statistics">
       <div className="statistics--overview">
         <h4>Ümumi baxış</h4>
-        <ReactECharts option={overviewOptions} showLoading={chartsLoading} />
+        <ReactECharts option={overviewOptions} showLoading={overviewLoading} />
       </div>
       <div className="statistics--outcome">
         <h4>Xərc Kateqoriyaları</h4>
-        <ReactECharts option={outcomeOptions}/>
+        <ReactECharts option={outcomeOptions} showLoading={outcomeLoading} />
       </div>
     </div>
   );

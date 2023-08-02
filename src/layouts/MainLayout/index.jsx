@@ -18,6 +18,10 @@ import {
   getLastWeekTransactionsAsync,
   getTransactionsHistoryAsync,
 } from "../../redux/transactions/transactionsSlice";
+import {
+  getExpenseCategoriesAsync,
+  getIncomeCategoriesAsync,
+} from "../../redux/categories/categoriesSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -30,6 +34,8 @@ const MainLayout = () => {
     dispatch(getPendingContactsAsync(toast));
     dispatch(getTransactionsHistoryAsync(toast));
     dispatch(getLastTransactionsAsync(toast));
+    dispatch(getExpenseCategoriesAsync(toast));
+    dispatch(getIncomeCategoriesAsync(toast));
   }, []);
 
   return (

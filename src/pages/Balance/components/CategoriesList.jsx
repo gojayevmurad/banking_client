@@ -10,7 +10,12 @@ import {
 } from "../../../redux/categories/categoriesSlice";
 import SelectBox from "../../../components/SelectBox";
 
-const returnTrueIcon = (option) => {};
+const colors = [
+  { color: "red" },
+  { color: "blue" },
+  { color: "purple" },
+  { color: "orange" },
+];
 
 const CategoriesList = () => {
   const dispatch = useDispatch();
@@ -19,7 +24,8 @@ const CategoriesList = () => {
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [categoryType, setCategoryType] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [target, setTarget] = useState(0);
+  const [activeColor, setActiveColor] = useState("");
+  const [target, setTarget] = useState();
 
   const expenseCategoriesData = useSelector(
     (state) => state.categories.expenseCategories.data
@@ -33,18 +39,19 @@ const CategoriesList = () => {
       state.categories.expenseCategories.loading
   );
 
-  useEffect(() => {
-    dispatch(getExpenseCategoriesAsync(toast));
-    dispatch(getIncomeCategoriesAsync(toast));
-  }, []);
-
   const onSubmitNewCategory = (e) => {
     e.preventDefault();
+
+    if (categoryName == "" || activeColor == "" || target == "") {
+      return toast.error("Formu doldurun");
+    }
+
     const isIncome = categoryType == "Gəlir" ? true : false;
-    
+
     const data = {
       categoryName,
       isIncome,
+      color: activeColor,
     };
 
     if (isIncome) {
@@ -57,6 +64,10 @@ const CategoriesList = () => {
     setShowNewCategory(false);
     setCategoryName("");
     setCategoryType("");
+    setActiveColor("");
+  };
+  const changeActiveColor = (color) => {
+    activeColor == color ? setActiveColor("") : setActiveColor(color);
   };
   const removeCategoryHandler = (id) => {
     dispatch(deleteCategoryAsync(toast, id));
@@ -86,6 +97,20 @@ const CategoriesList = () => {
                 options={["Gəlir", "Xərc"]}
               />
             </label>
+            <div className="colors">
+              <p>Kateqoriya rəngi</p>
+              {colors.map((item) => {
+                return (
+                  <button
+                    className={activeColor == item.color ? "active" : ""}
+                    onClick={() => changeActiveColor(item.color)}
+                    type="button"
+                  >
+                    <div data-bg={item.color}></div>
+                  </button>
+                );
+              })}
+            </div>
             {categoryType == "Gəlir" && (
               <input
                 value={target}
