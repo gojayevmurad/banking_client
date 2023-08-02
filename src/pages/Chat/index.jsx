@@ -44,13 +44,11 @@ const Chat = () => {
   };
 
   const handleReceiveMessage = (data) => {
-    console.log(data);
     const newMessage = {
       fromFriend: true,
       content: data.message,
       date: Date.now(),
     };
-    console.log(data);
     setMessages((prevMessages) => ({
       ...prevMessages,
       [data.userId]: [...(prevMessages[data.userId] || []), newMessage],

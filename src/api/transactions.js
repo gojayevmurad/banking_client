@@ -32,7 +32,3 @@ export {
   acceptTransaction,
   getLastWeekTransactions,
 };
-
-// User validation failed: transactionsHistory.0.status:
-// Cast to Boolean failed for value
-// "Pending" (type string) at path "status" because of "CastError"

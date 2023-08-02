@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { formatMoney, returnColor } from "../../../utils/index";
+import { useSelector } from "react-redux";
 
 const MyBalance = () => {
+  const userInfoes = useSelector((state) => state.profile.userInfoes.data);
   const [data, setData] = useState({
     amount: 12345789,
     cartHolder: "Rara Avis",
@@ -23,7 +25,7 @@ const MyBalance = () => {
       target: 100,
     },
     {
-      color: "orange",
+      color: "blue",
       title: "Investment",
       amount: 1000,
       target: 2000,
@@ -39,17 +41,12 @@ const MyBalance = () => {
   return (
     <div className="my_balance">
       <h5>Balansım</h5>
-      <p className="money">${formatMoney(data.amount)}</p>
+      <p className="money">${formatMoney(userInfoes?.totalBalance || 0)}</p>
       <div className="desc">
         <div>
-          <p>Kart Sahibi</p>
-          <span>{data.cartHolder}</span>
+          <p>Hesab Sahibi</p>
+          <span>{userInfoes?.name + " " + userInfoes?.surname}</span>
         </div>
-        <div>
-          <p>Etibarlıdır</p>
-          <span>{data.validThru}</span>
-        </div>
-        <span>•••• •••• •••• {data.lastDigits}</span>
       </div>
       <div className="targets">
         {earningCategories.length > 0 &&

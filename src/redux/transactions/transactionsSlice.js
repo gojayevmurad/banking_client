@@ -32,6 +32,10 @@ const initialState = {
     loading: false,
     data: null,
   },
+  lastTransactions: {
+    loading: false,
+    data: null,
+  },
 };
 
 export const transactionsSlice = createSlice({
@@ -74,6 +78,12 @@ export const transactionsSlice = createSlice({
         ...action.payload,
       };
     },
+    setLastTransactionsData: (state, action) => {
+      state.lastTransactions = {
+        ...state.lastTransactions,
+        ...action.payload,
+      };
+    },
   },
 });
 
@@ -86,7 +96,7 @@ export const setNewTransactionAsync = (toast, body) => async (dispatch) => {
   } catch (err) {
     toast.error(err.message);
   }
-  dispatch(setNewTransactionData({ loading: true }));
+  dispatch(setNewTransactionData({ loading: false }));
 };
 
 export const rejectTransactionAsync = (toast, id) => async (dispatch) => {
@@ -149,6 +159,17 @@ export const getLastWeekTransactionsAsync = (toast) => async (dispatch) => {
   dispatch(setLastWeekData({ loading: false }));
 };
 
+export const getLastTransactionsAsync = (toast) => async (dispatch) => {
+  dispatch(setLastTransactionsData({ loading: true }));
+  try {
+    const response = await getTransactionsHistory({ page: 1, limit: 6 });
+    response && dispatch(setLastTransactionsData({ data: response.data }));
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setLastTransactionsData({ loading: false }));
+};
+
 export const {
   setAcceptingTransactionsData,
   setNewTransactionData,
@@ -156,6 +177,7 @@ export const {
   setRejectingTransactionData,
   setTransactionsHistoryData,
   setLastWeekData,
+  setLastTransactionsData,
 } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

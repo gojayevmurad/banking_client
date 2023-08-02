@@ -41,6 +41,7 @@ const CategoriesList = () => {
   const onSubmitNewCategory = (e) => {
     e.preventDefault();
     const isIncome = categoryType == "Gəlir" ? true : false;
+    
     const data = {
       categoryName,
       isIncome,
@@ -53,6 +54,9 @@ const CategoriesList = () => {
       dispatch(createCategoryAsync(toast, data));
       dispatch(getExpenseCategoriesAsync(toast));
     }
+    setShowNewCategory(false);
+    setCategoryName("");
+    setCategoryType("");
   };
   const removeCategoryHandler = (id) => {
     dispatch(deleteCategoryAsync(toast, id));
@@ -117,7 +121,6 @@ const CategoriesList = () => {
         {!isLoading &&
           incomeCategoriesData &&
           incomeCategoriesData.map((item) => {
-            console.log(item);
             return (
               <div key={item._id} className="categories_list--content__item">
                 <div className="content">

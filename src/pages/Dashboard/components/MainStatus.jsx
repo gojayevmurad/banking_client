@@ -7,9 +7,8 @@ const MainStatus = () => {
   const totalTransaction = 3;
 
   const lastestTransactions = useSelector(
-    (state) => state.transactions.transactionHistory
+    (state) => state.transactions.lastTransactions
   );
-
   const earningCategories = [
     {
       color: "purple",

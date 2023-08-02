@@ -103,10 +103,33 @@
       }
     }
     .transfer_invoice {
+      position: relative;
+      &[data-loading="true"] {
+        *:not(.loading) {
+          opacity: 0;
+        }
+        .loading {
+          display: inline-block;
+          opacity: 1;
+        }
+      }
       & > h4 {
         font-weight: 700;
         font-size: 1.4rem;
         margin-bottom: 15px;
+      }
+      .loading {
+        width: 35px;
+        height: 35px;
+        border: 2px solid var(--color-purple);
+        border-radius: 50%;
+        border-bottom-color: transparent;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        animation: main-loading 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
+          infinite;
+        display: none;
       }
       &--list {
         display: grid;
@@ -120,6 +143,61 @@
           border: none;
           outline: none;
           background-color: transparent;
+          &[data-loading="true"] {
+            p {
+              display: inline-block;
+              width: 67px;
+              height: 16px;
+              margin-top: 3px;
+              margin-bottom: 1px;
+              overflow: hidden;
+              background: #d0d0d0 !important;
+              position: relative;
+
+              &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                display: block;
+                height: 100%;
+                width: 100%;
+                animation: loading 1s infinite;
+                background: linear-gradient(
+                  to right,
+                  transparent,
+                  #fffdfd,
+                  transparent
+                );
+              }
+            }
+            .img {
+              position: relative;
+              background: #d0d0d0 !important;
+              overflow: hidden;
+              width: 65px;
+              height: 65px;
+              img {
+                display: none;
+              }
+              &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                display: block;
+                height: 100%;
+                width: 100%;
+                animation: loading 1s infinite;
+                background: linear-gradient(
+                  to right,
+                  transparent,
+                  #fffdfd,
+                  transparent
+                );
+              }
+            }
+          }
           .img {
             cursor: pointer;
             border: 1px solid transparent;
@@ -253,6 +331,25 @@
     padding: 50px 0;
     padding-bottom: 10px;
     position: relative;
+    overflow: hidden;
+    .loading {
+      display: none;
+    }
+    &[data-loading="true"] {
+      .loading {
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        border: 2px solid var(--color-purple);
+        border-radius: 50%;
+        border-bottom-color: transparent;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        animation: main-loading 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
+          infinite;
+      }
+    }
     h4 {
       position: absolute;
       top: 20px;
@@ -262,7 +359,8 @@
       display: flex;
       flex-direction: column;
       height: 300px;
-      & > div {
+      position: relative;
+      & > div:not(.loading) {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -295,6 +393,7 @@
           text-overflow: ellipsis;
           white-space: nowrap;
         }
+
         .person {
           width: 120px;
           p {
@@ -312,9 +411,11 @@
           }
         }
         .operation_id {
-          width: 100px;
+          width: 150px;
           font-weight: 700;
           color: var(--color-purple);
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .amount {
           width: 120px;
@@ -335,6 +436,7 @@
         }
         .status {
           width: 100px;
+          font-weight: 500;
         }
         .more_btn {
           border: none;
@@ -355,7 +457,7 @@
     padding-bottom: 10px;
     position: relative;
     transition: 0.5s linear;
-
+    overflow: hidden;
     &:hover {
       .create-new {
         opacity: 1;
@@ -474,6 +576,7 @@
       }
     }
     &--content {
+      overflow: scroll;
       height: 300px;
       & > div:not(.loading) {
         padding: 0 15px;

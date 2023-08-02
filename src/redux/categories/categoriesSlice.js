@@ -60,6 +60,8 @@ export const createCategoryAsync = (toast, body) => async (dispatch) => {
   try {
     const response = await createCategory(body);
     response && toast.success(response.message);
+    response && dispatch(getExpenseCategoriesAsync(toast));
+    response && dispatch(getIncomeCategoriesAsync(toast));
   } catch (err) {
     toast.error(err.message);
   }
@@ -71,8 +73,8 @@ export const deleteCategoryAsync = (toast, id) => async (dispatch) => {
   try {
     const response = await deleteCategory(id);
     response && toast.success(response.message);
-    dispatch(getExpenseCategoriesAsync(toast));
-    dispatch(getIncomeCategoriesAsync(toast));
+    response && dispatch(getExpenseCategoriesAsync(toast));
+    response && dispatch(getIncomeCategoriesAsync(toast));
   } catch (err) {
     toast.error(err.message);
   }

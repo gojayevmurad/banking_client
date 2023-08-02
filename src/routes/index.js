@@ -1,7 +1,6 @@
 import MainLayout from "../layouts/MainLayout";
 import Dashboard from "../pages/Dashboard";
 import Balance from "../pages/Balance";
-import Invoices from "../pages/Invoices";
 import Cards from "../pages/Cards";
 import Transaction from "../pages/Transaction";
 import Settings from "../pages/Settings";
@@ -26,10 +25,6 @@ const routes = [
       {
         path: "balance",
         element: <Balance />,
-      },
-      {
-        path: "invoices",
-        element: <Invoices />,
       },
       {
         path: "cards",

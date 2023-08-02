@@ -13,14 +13,25 @@ const TransferInvoice = () => {
 
   const contacts = useSelector((state) => state.contacts.userContacts.data);
   const cards = useSelector((state) => state.cards.cards.data);
+  const categories = useSelector(
+    (state) => state.categories.expenseCategories.data
+  );
+  const isLoading = useSelector(
+    (state) => state.transactions.newTransaction.loading
+  );
 
   const [formValues, setFormValues] = useState({
     title: "",
     amount: "",
   });
+
+  //#region transfer states
   const [selectedPerson, setSelectedPerson] = useState("");
   const [selectedCard, setSelectedCard] = useState("");
   const [selectedCardId, setSelectedCardId] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  //#endregion transfer states
 
   const formHandler = (e) =>
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -38,16 +49,40 @@ const TransferInvoice = () => {
     });
   };
 
+  const returnCategoryNames = (categories) => {
+    return categories.map((category) => {
+      return {
+        fieldName: category.categoryName,
+        _id: category._id,
+      };
+    });
+  };
+
   const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    if (
+      formValues.amount == "" ||
+      formValues.title == "" ||
+      selectedCategoryId == ""
+    ) {
+      return toast.error("Formu doldurun");
+    }
+
     const data = {
       ...formValues,
       userId: selectedPerson,
       cardId: selectedCardId,
+      categoryId: selectedCategoryId,
     };
     dispatch(setNewTransactionAsync(toast, data));
     dispatch(getLastWeekTransactionsAsync(toast));
 
-    e.preventDefault();
+    setFormValues({
+      title: "",
+      amount: "",
+    });
+    setSelectedPerson("");
   };
 
   const returnDataActive = (id) => {
@@ -59,10 +94,31 @@ const TransferInvoice = () => {
       }
     }
   };
-  // item._id == selectedPerson  ? true : false
+
+  // #region loading user list data
+  const loadingItem = (
+    <button data-loading="true" className="transfer_invoice--list__item">
+      <div className="img">
+        <img
+          src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
+          alt="user"
+        />
+      </div>
+      <p></p>
+    </button>
+  );
+  const loadingItems = [
+    loadingItem,
+    loadingItem,
+    loadingItem,
+    loadingItem,
+    loadingItem,
+  ];
+  // #endregion loading user list data
   return (
-    <div className="transfer_invoice">
+    <div data-loading={isLoading} className="transfer_invoice">
       <h4>Transfer</h4>
+      <div className="loading"></div>
       <div className="transfer_invoice--list">
         {contacts != null &&
           contacts.map((item, index) => {
@@ -83,6 +139,7 @@ const TransferInvoice = () => {
               </button>
             );
           })}
+        {!(contacts != null) && loadingItems}
         {contacts != null && contacts.length > 6 && (
           <div className="more">
             <svg
@@ -130,6 +187,22 @@ const TransferInvoice = () => {
             setOption={setSelectedCard}
             options={cards == null ? [] : returnCardsNames(cards)}
             setId={setSelectedCardId}
+          />
+        </label>
+        <label>
+          <p>Kateqoriya</p>
+          <SelectBox
+            option={selectedCategory}
+            options={
+              categories == null
+                ? []
+                : [
+                    ...returnCategoryNames(categories),
+                    { fieldName: "Kateqoriyasız", _id: "null" },
+                  ]
+            }
+            setOption={setSelectedCategory}
+            setId={setSelectedCategoryId}
           />
         </label>
         <div>
