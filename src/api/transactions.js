@@ -12,8 +12,8 @@ const getPendingTransactions = () => {
   return axiosClient.get("/api/transaction/get-pendings");
 };
 
-const acceptTransaction = (id) => {
-  return axiosClient.put(`/api/transaction/accept/${id}`);
+const acceptTransaction = (id, cardId) => {
+  return axiosClient.put(`/api/transaction/accept/${id}/${cardId}`);
 };
 
 const rejectTransaction = (id) => {

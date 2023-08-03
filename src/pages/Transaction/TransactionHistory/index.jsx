@@ -8,21 +8,46 @@ import {
   acceptingTransactionAsync,
   getPendingTransactionsAsync,
   getTransactionsHistoryAsync,
+  rejectTransactionAsync,
 } from "../../../redux/transactions/transactionsSlice";
 import Loading from "../../../components/Loading";
 import Pagination from "../../../components/Pagination";
 import Checkbox from "../../../components/Checkbox";
+import SelectBox from "../../../components/SelectBox";
+
+const returnCardsOptions = (cards) => {
+  if (cards) {
+    return cards.map((card) => {
+      return {
+        fieldName: card.cardName,
+        _id: card._id,
+      };
+    });
+  }
+
+  return [];
+};
 
 const ListItem = ({ item, isPending }) => {
   const dispatch = useDispatch();
 
-  const [showPopup, setShowPopup] = useState(false);
+  const cardsList = useSelector((state) => state.cards.cards.data);
+
+  const [showPopup, setShowPopup] = useState(true);
+  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCardId, setSelectedCardId] = useState("");
 
   const acceptHandler = (id) => {
-    dispatch(acceptingTransactionAsync(toast, id));
+    if (selectedCardId.trim().length == 0) {
+      return toast.error("Kart seçin");
+    }
+    dispatch(acceptingTransactionAsync(toast, id, selectedCardId));
     setShowPopup(false);
   };
-  const rejectHandler = () => {};
+  const rejectHandler = (id) => {
+    dispatch(rejectTransactionAsync(toast, id));
+    setShowPopup(false);
+  };
 
   const manipulateActions = (status) => {
     if (status == "Pending") {
@@ -74,10 +99,10 @@ const ListItem = ({ item, isPending }) => {
         onMouseDown={() => manipulateActions(item.status)}
       >
         {item.status === true
-          ? "Completed"
+          ? "Tamamlandı"
           : item.status === false
-          ? "Declined"
-          : "Pending"}
+          ? "İmtina edildi"
+          : "Gözlənilir"}
         {isPending && (
           <div className="pending_popup">
             <div
@@ -95,6 +120,15 @@ const ListItem = ({ item, isPending }) => {
                   <span>{item.title}</span>" başlığı altında göndərilən{" "}
                   <span>${item.amount}</span> məbləğindəki köçürməni :
                 </p>
+              </div>
+              <div className="transfer_to">
+                <p>Köçürməni qəbul etmək üçün kart seçin</p>
+                <SelectBox
+                  option={selectedCard}
+                  setOption={setSelectedCard}
+                  options={returnCardsOptions(cardsList)}
+                  setId={setSelectedCardId}
+                />
               </div>
               <div className="actions">
                 <button

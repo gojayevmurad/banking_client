@@ -11,11 +11,9 @@ import {
 const initialState = {
   rejectingTransaction: {
     loading: false,
-    data: null,
   },
   acceptingTransaction: {
     loading: false,
-    data: null,
   },
   transactionHistory: {
     loading: false,
@@ -103,7 +101,9 @@ export const rejectTransactionAsync = (toast, id) => async (dispatch) => {
   dispatch(setRejectingTransactionData({ laoding: true }));
   try {
     const response = await rejectTransaction(id);
-    response && setRejectingTransactionData({ data: response.data });
+    response && toast.success(response.message);
+    dispatch(getPendingTransactionsAsync(toast));
+    dispatch(getTransactionsHistoryAsync(toast));
   } catch (err) {
     toast.error(err.message);
   }
@@ -135,18 +135,19 @@ export const getPendingTransactionsAsync = (toast) => async (dispatch) => {
   dispatch(setPendingTransactionData({ loading: false }));
 };
 
-export const acceptingTransactionAsync = (toast, id) => async (dispatch) => {
-  dispatch(setAcceptingTransactionsData({ loading: true }));
-  try {
-    const response = await acceptTransaction(id);
-    response && toast.success(response.message);
-    dispatch(getPendingTransactionsAsync(toast));
-    dispatch(getTransactionsHistoryAsync(toast));
-  } catch (err) {
-    toast.error(err.message);
-  }
-  dispatch(setAcceptingTransactionsData({ loading: false }));
-};
+export const acceptingTransactionAsync =
+  (toast, id, cardId) => async (dispatch) => {
+    dispatch(setAcceptingTransactionsData({ loading: true }));
+    try {
+      const response = await acceptTransaction(id, cardId);
+      response && toast.success(response.message);
+      dispatch(getPendingTransactionsAsync(toast));
+      dispatch(getTransactionsHistoryAsync(toast));
+    } catch (err) {
+      toast.error(err.message);
+    }
+    dispatch(setAcceptingTransactionsData({ loading: false }));
+  };
 
 export const getLastWeekTransactionsAsync = (toast) => async (dispatch) => {
   dispatch(setLastWeekData({ loading: true }));

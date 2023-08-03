@@ -158,9 +158,9 @@
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            background-color: var(--color-purple);
+            background-color: var(--color-white);
             width: 600px;
-            height: 300px;
+            height: 340px;
             border-radius: 40px;
             box-shadow: var(--box-shadow-1);
             padding: 20px;
@@ -168,6 +168,7 @@
               text-align: center;
               margin: 20px 0;
               font-size: 2rem;
+              color: var(--color-text);
             }
             .data {
               width: 100%;
@@ -176,10 +177,23 @@
                 text-align: center;
                 white-space: wrap;
                 font-weight: 500;
+                color: var(--color-text);
                 span {
                   font-weight: 700;
                   font-size: 1.3rem;
                 }
+              }
+            }
+            .transfer_to {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 10px auto;
+              gap: 10px;
+              width: min-content;
+              & > p {
+                color: var(--color-text);
+                font-weight: 600;
               }
             }
             .actions {
