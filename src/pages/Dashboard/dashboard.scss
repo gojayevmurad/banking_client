@@ -128,6 +128,10 @@
   }
 }
 
+.cent {
+  font-size: 1.3rem !important;
+}
+
 .statistics {
   display: flex;
   justify-content: space-between;
@@ -219,7 +223,7 @@
             svg {
               fill: var(--color-white);
             }
-            &[data-bg="red"] {
+            &[data-bg="green"] {
               svg {
                 transform: rotate(180deg);
               }

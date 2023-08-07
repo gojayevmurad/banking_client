@@ -1,0 +1,29 @@
+.login-page {
+    background-color: var(--color-purple);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+      padding: 40px 20px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      background-color: var(--color-white);
+      input,
+      button {
+        border: none;
+        outline: none;
+        background-color: var(--color-red) !important;
+      }
+      input {
+        width: 400px;
+        height: 30px;
+        padding: 5px 10px;
+      }
+    }
+  }
+  

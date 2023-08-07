@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatMoney, returnColor } from "../../../utils/index";
 import { useSelector } from "react-redux";
 
-const MyBalance = () => {
+const MyBalance = ({ t }) => {
   const userInfoes = useSelector((state) => state.profile.userInfoes.data);
   const [data, setData] = useState({
     amount: 12345789,
@@ -40,11 +40,11 @@ const MyBalance = () => {
 
   return (
     <div className="my_balance">
-      <h5>Balansım</h5>
+      <h5>{t("myBalance")}</h5>
       <p className="money">${formatMoney(userInfoes?.totalBalance || 0)}</p>
       <div className="desc">
         <div>
-          <p>Hesab Sahibi</p>
+          <p>{t("accountOwner")}</p>
           <span>{userInfoes?.name + " " + userInfoes?.surname}</span>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
+
 import { formatMoney, ChevronDown, ChevronUp } from "../../../utils";
 import CardItem from "../../../components/CardItem/CardItem";
 
@@ -10,7 +11,7 @@ const defaultCard = {
   color: "white",
 };
 
-const MainData = ({ incomes, expenses }) => {
+const MainData = ({ incomes, expenses, t }) => {
   const chartsLoading = useSelector(
     (state) => state.transactions.lastWeek.loading
   );
@@ -26,31 +27,6 @@ const MainData = ({ incomes, expenses }) => {
       increase: false,
       value: expenses.total,
       percent: 0.5,
-    },
-  };
-
-  const sameOptions = {
-    color: ["#6160dc"],
-    xAxis: {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      show: false,
-    },
-    yAxis: {
-      type: "value",
-      show: false,
-    },
-    tooltip: {
-      trigger: "axis",
-      textStyle: {
-        color: "#6160dc",
-      },
-    },
-    grid: {
-      left: "0%",
-      right: "0%",
-      top: "10%",
-      bottom: "10%",
     },
   };
 
@@ -81,7 +57,50 @@ const MainData = ({ incomes, expenses }) => {
       },
     ],
   };
+  const sameOptions = {
+    color: ["#6160dc"],
+    xAxis: {
+      type: "category",
+      data: [
+        t("monday"),
+        t("tuesday"),
+        t("wednesday"),
+        t("thursday"),
+        t("friday"),
+        t("saturday"),
+        t("sunday"),
+      ],
+      show: false,
+    },
+    yAxis: {
+      type: "value",
+      show: false,
+    },
+    tooltip: {
+      trigger: "axis",
+      textStyle: {
+        color: "#6160dc",
+      },
+    },
+    grid: {
+      left: "0%",
+      right: "0%",
+      top: "10%",
+      bottom: "10%",
+    },
+  };
 
+  const returnData = (data) => {
+    let item = formatMoney(data);
+    item = item.split(".");
+
+    const element = (
+      <span>
+        ${item[0]}.<span className="cent">{item[1]}</span>
+      </span>
+    );
+    return element;
+  };
   return (
     <div className="main_data">
       <CardItem
@@ -132,8 +151,8 @@ const MainData = ({ incomes, expenses }) => {
               </svg>
             </div>
             <div className="income-details">
-              {/* <p>Gəlir</p> */}
-              <span>${formatMoney(weeklyData.income.value)}</span>
+              <p>{t("income")}</p>
+              <span>{returnData(weeklyData.income.value)}</span>
             </div>
           </div>
           <div>
@@ -145,7 +164,7 @@ const MainData = ({ incomes, expenses }) => {
                 <p className="red">-{weeklyData.income.percent}%</p>
               )}
             </div>
-            <span>son həftə</span>
+            <span>{t("lastWeek")}</span>
           </div>
         </div>
         <div>
@@ -201,8 +220,8 @@ const MainData = ({ incomes, expenses }) => {
               </svg>
             </div>
             <div className="expense-details">
-              <p>Xərc</p>
-              <span>${formatMoney(weeklyData.expense.value)}</span>
+              <p>{t("expense")}</p>
+              <span>{returnData(weeklyData.expense.value)}</span>
             </div>
           </div>
           <div>
@@ -214,7 +233,7 @@ const MainData = ({ incomes, expenses }) => {
                 <p className="red">-{weeklyData.expense.percent}%</p>
               )}
             </div>
-            <span>son həftə</span>
+            <span>{t("lastWeek")}</span>
           </div>
         </div>
         <div>

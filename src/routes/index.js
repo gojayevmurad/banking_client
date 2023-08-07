@@ -4,7 +4,8 @@ import Balance from "../pages/Balance";
 import Cards from "../pages/Cards";
 import Transaction from "../pages/Transaction";
 import Settings from "../pages/Settings";
-import Login from "../layouts/Login";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 import Contacts from "../pages/Contacts";
 import Chat from "../pages/Chat";
 import PrivateRoute from "./PrivateRoute";
@@ -61,6 +62,10 @@ const routes = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ];
 const authMap = (routes) => {

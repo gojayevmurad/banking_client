@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { changeCardStatusAsync } from "../../../../redux/cards/cardsSlice";
 import { toast } from "react-hot-toast";
 
-const CardList = ({ cardList }) => {
+const CardList = ({ cardList, t }) => {
   const dispatch = useDispatch();
 
   const cardStatusHandler = (id) => {
@@ -13,7 +13,7 @@ const CardList = ({ cardList }) => {
 
   return (
     <div className="card_list">
-      <h4>Card List</h4>
+      <h4>{t("cardList")}</h4>
       <div className="card_list--content">
         {cardList.length &&
           cardList.map((card, index) => (
@@ -24,60 +24,37 @@ const CardList = ({ cardList }) => {
                   <div className="decoration-2"></div>
                 </div>
                 <div className="desc">
-                  <p>Card Name</p>
+                  <p>{t("cardName")}</p>
                   <span>{card.cardName}</span>
                 </div>
               </div>
               <div className="bank">
-                <p>Bank Name</p>
+                <p>{t("bankName")}</p>
                 <span>Bank ABC</span>
               </div>
-              <div className="name">
-                <p>Name</p>
-                <span>{card.cardHolderName}</span>
-              </div>
               <div className="card_number">
-                <p>Card Number</p>
+                <p>{t("cardNumber")}</p>
                 <span>•••• •••• •••• {card.cardNumber % 10000}</span>
               </div>
               <div className="valid_thru">
-                <p>Valid Thru</p>
+                <p>{t("validThru")}</p>
                 <span>{card.validThru}</span>
+              </div>
+              <div className="name">
+                <p>CVC</p>
+                <span>•••</span>
               </div>
               <div className="actions">
                 <button
                   onClick={() => cardStatusHandler(card._id)}
-                  data-bg={card.status ? "green" : "red"}
+                  data-bg={card.status ? "red" : "green"}
                 >
-                  {card.status ? "Active" : "Unactive"}
+                  {card.status ? t("disable") : t("active")}
                 </button>
                 <button className="more">•••</button>
               </div>
             </div>
           ))}
-      </div>
-      <div className="card_list--bottom">
-        <div>
-          Showing 1-{cardList.length < 5 ? cardList.length : 5} from{" "}
-          {cardList.length} data
-        </div>
-        <div className="pagination">
-          <div className="pagination--item">
-            <button className="active">1</button>
-          </div>
-          {/* <div className="pagination--item">
-            <button>2</button>
-          </div>
-          <div className="pagination--item">
-            <button>3</button>
-          </div>
-          <div className="pagination--item">
-            <button>4</button>
-          </div>
-          <div className="pagination--item">
-            <button>5</button>
-          </div> */}
-        </div>
       </div>
     </div>
   );

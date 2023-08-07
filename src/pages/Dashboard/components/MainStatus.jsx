@@ -3,7 +3,7 @@ import React from "react";
 import { formatDate, formatMoney, formatTime } from "../../../utils";
 import { useSelector } from "react-redux";
 
-const MainStatus = () => {
+const MainStatus = ({ t }) => {
   const lastestTransactions = useSelector(
     (state) => state.transactions.lastTransactions
   );
@@ -15,37 +15,10 @@ const MainStatus = () => {
     (state) => state.categories.incomeCategories.loading
   );
 
-  const earningCategories = [
-    {
-      color: "purple",
-      title: "Working Hard",
-      amount: 50,
-      target: 1000,
-    },
-    {
-      color: "blue",
-      title: "Side Project",
-      amount: 70,
-      target: 100,
-    },
-    {
-      color: "orange",
-      title: "Investment",
-      amount: 1000,
-      target: 2000,
-    },
-    {
-      color: "red",
-      title: "Digital Assets",
-      amount: 40,
-      target: 10000,
-    },
-  ];
-
   return (
     <div className="main_status">
       <div className="lastest_transaction">
-        <h4>Son Tranzaksiyalar</h4>
+        <h4>{t("lastestTransactions")}</h4>
         <div
           className="lastest_transaction--content"
           data-loading={lastestTransactions.loading}
@@ -78,7 +51,7 @@ const MainStatus = () => {
                     </div>
                     <div className="person">
                       <p>{item.sender}</p>
-                      <span>Transfer</span>
+                      <span>{t("transfer")}</span>
                     </div>
                     <p className="amount">
                       {item.amount < 0 ? (
@@ -129,7 +102,7 @@ const MainStatus = () => {
         </div>
       </div>
       <div className="earning_categories">
-        <h4>Gəlir Kateqoriyaları</h4>
+        <h4>{t("earningCategories")}</h4>
         <div
           data-loading={incomeLoading}
           className="earning_categories--content"
@@ -183,7 +156,7 @@ const MainStatus = () => {
                     <p>
                       ${formatMoney(item.amount)}{" "}
                       <span data-color={item.color}>
-                        /dan ${formatMoney(item.target)}
+                        /{t("from")} ${formatMoney(item.target)}
                       </span>
                     </p>
                   </div>

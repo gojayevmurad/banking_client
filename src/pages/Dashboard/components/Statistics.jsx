@@ -19,7 +19,7 @@ const returnLegendName = (data) => {
   return [];
 };
 
-const Statistics = ({ incomes, expenses }) => {
+const Statistics = ({ incomes, expenses, t }) => {
   const overviewLoading = useSelector(
     (state) => state.transactions.lastWeek.loading
   );
@@ -33,20 +33,28 @@ const Statistics = ({ incomes, expenses }) => {
 
   const overviewOptions = {
     legend: {
-      data: ["Xərclər", "Gəlirlər"],
+      data: [t("expenses"), t("incomes")],
       right: 20,
       top: 5,
     },
     xAxis: {
       type: "category",
-      data: ["B.e", "Ç.a", "Ç", "C.a", "C", "Şən", "Baz"],
+      data: [
+        t("monday"),
+        t("tuesday"),
+        t("wednesday"),
+        t("thursday"),
+        t("friday"),
+        t("saturday"),
+        t("sunday"),
+      ],
     },
     yAxis: {
       type: "value",
     },
     series: [
       {
-        name: "Xərclər",
+        name: t("expenses"),
         data: expenses.data,
         type: "bar",
         smooth: true,
@@ -56,7 +64,7 @@ const Statistics = ({ incomes, expenses }) => {
         },
       },
       {
-        name: "Gəlirlər",
+        name: t("incomes"),
         data: incomes.data,
         type: "bar",
         smooth: true,
@@ -108,11 +116,11 @@ const Statistics = ({ incomes, expenses }) => {
   return (
     <div className="statistics">
       <div className="statistics--overview">
-        <h4>Ümumi baxış</h4>
+        <h4>{t("overview")}</h4>
         <ReactECharts option={overviewOptions} showLoading={overviewLoading} />
       </div>
       <div className="statistics--outcome">
-        <h4>Xərc Kateqoriyaları</h4>
+        <h4>{t("outcomeCategories")}</h4>
         <ReactECharts option={outcomeOptions} showLoading={outcomeLoading} />
       </div>
     </div>

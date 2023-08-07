@@ -17,7 +17,7 @@ const colors = [
   { color: "orange" },
 ];
 
-const CategoriesList = () => {
+const CategoriesList = ({ t }) => {
   const dispatch = useDispatch();
 
   // new category states
@@ -90,7 +90,7 @@ const CategoriesList = () => {
               name="name"
             />
             <label>
-              <p>Kateqoriya növü</p>
+              <p>{t("newCategory")}</p>
               <SelectBox
                 option={categoryType}
                 setOption={setCategoryType}
@@ -98,10 +98,11 @@ const CategoriesList = () => {
               />
             </label>
             <div className="colors">
-              <p>Kateqoriya rəngi</p>
-              {colors.map((item) => {
+              <p>{t("categoryColor")}</p>
+              {colors.map((item, index) => {
                 return (
                   <button
+                    key={index}
                     className={activeColor == item.color ? "active" : ""}
                     onClick={() => changeActiveColor(item.color)}
                     type="button"
@@ -115,16 +116,16 @@ const CategoriesList = () => {
               <input
                 value={target}
                 onChange={(e) => setTarget(e.target.value)}
-                placeholder="Hədəf məbləğ"
+                placeholder={t("targetMoney")}
                 type="number"
               />
             )}
-            <button type="submit">Yarat</button>
+            <button type="submit">{t("create")}</button>
           </form>
         </div>
       </div>
       <div className="categories_list--head">
-        <h4>Kateqoriyalar</h4>
+        <h4>{t("categories")}</h4>
         <button
           className="create-new"
           onClick={() => setShowNewCategory(!showNewCategory)}
@@ -167,7 +168,7 @@ const CategoriesList = () => {
                     <path d="M16 6c-.271 0-.521-.11-.71-.29-.04-.05-.09-.1-.12-.16a.556.556 0 0 1-.09-.17.672.672 0 0 1-.061-.18C15.01 5.13 15 5.07 15 5c0-.26.109-.52.29-.71.37-.37 1.04-.37 1.42 0 .18.19.29.45.29.71 0 .07-.01.13-.021.2a.606.606 0 0 1-.06.18.578.578 0 0 1-.09.17c-.04.06-.08.11-.12.16-.189.18-.449.29-.709.29zm0 8c-.271 0-.521-.11-.71-.29-.04-.05-.09-.1-.12-.16a.556.556 0 0 1-.09-.17.672.672 0 0 1-.061-.18c-.009-.07-.019-.13-.019-.2 0-.26.109-.52.29-.71.37-.37 1.04-.37 1.42 0 .18.19.29.45.29.71 0 .07-.01.13-.021.2a.606.606 0 0 1-.06.18.578.578 0 0 1-.09.17c-.04.06-.08.11-.12.16-.189.18-.449.29-.709.29zm2 17H2a1 1 0 0 1-1-1v-9c0-.265.105-.52.293-.707C1.527 20.058 3.653 18 6 18c1.944 0 4.452 1.469 5.295 2H16a3.004 3.004 0 0 1 2.955 3.519l7.891-3.288a2.995 2.995 0 0 1 2.818.273A2.993 2.993 0 0 1 31 23a1 1 0 0 1-.496.864l-12 7A1.003 1.003 0 0 1 18 31zM3 29h14.729l11.14-6.498a1.01 1.01 0 0 0-.314-.334.984.984 0 0 0-.939-.091l-9.23 3.846A1.007 1.007 0 0 1 18 26h-8a1 1 0 1 1 0-2h6a1.001 1.001 0 0 0 0-2h-5c-.197 0-.391-.059-.555-.167C9.68 21.323 7.387 20 6 20c-1.09 0-2.347.88-3 1.439V29z"></path>
                   </svg>
                   <div className="prop">
-                    <span>Kateqoriya adı</span>
+                    <span>{t("categoryName")}</span>
                     <p>{item.categoryName}</p>
                   </div>
                 </div>
@@ -212,7 +213,7 @@ const CategoriesList = () => {
                     <path d="M16 6c-.271 0-.521-.11-.71-.29-.04-.05-.09-.1-.12-.16a.556.556 0 0 1-.09-.17.672.672 0 0 1-.061-.18C15.01 5.13 15 5.07 15 5c0-.26.109-.52.29-.71.37-.37 1.04-.37 1.42 0 .18.19.29.45.29.71 0 .07-.01.13-.021.2a.606.606 0 0 1-.06.18.578.578 0 0 1-.09.17c-.04.06-.08.11-.12.16-.189.18-.449.29-.709.29zm0 8c-.271 0-.521-.11-.71-.29-.04-.05-.09-.1-.12-.16a.556.556 0 0 1-.09-.17.672.672 0 0 1-.061-.18c-.009-.07-.019-.13-.019-.2 0-.26.109-.52.29-.71.37-.37 1.04-.37 1.42 0 .18.19.29.45.29.71 0 .07-.01.13-.021.2a.606.606 0 0 1-.06.18.578.578 0 0 1-.09.17c-.04.06-.08.11-.12.16-.189.18-.449.29-.709.29zm2 17H2a1 1 0 0 1-1-1v-9c0-.265.105-.52.293-.707C1.527 20.058 3.653 18 6 18c1.944 0 4.452 1.469 5.295 2H16a3.004 3.004 0 0 1 2.955 3.519l7.891-3.288a2.995 2.995 0 0 1 2.818.273A2.993 2.993 0 0 1 31 23a1 1 0 0 1-.496.864l-12 7A1.003 1.003 0 0 1 18 31zM3 29h14.729l11.14-6.498a1.01 1.01 0 0 0-.314-.334.984.984 0 0 0-.939-.091l-9.23 3.846A1.007 1.007 0 0 1 18 26h-8a1 1 0 1 1 0-2h6a1.001 1.001 0 0 0 0-2h-5c-.197 0-.391-.059-.555-.167C9.68 21.323 7.387 20 6 20c-1.09 0-2.347.88-3 1.439V29z"></path>
                   </svg>
                   <div className="prop">
-                    <span>Kateqoriya adı</span>
+                    <span>{t("categoryName")}</span>
                     <p>{item.categoryName}</p>
                   </div>
                 </div>

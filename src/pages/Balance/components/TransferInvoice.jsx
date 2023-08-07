@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import SelectBox from "../../../components/SelectBox/";
+import SelectBox from "../../../components/SelectBox";
 import { toast } from "react-hot-toast";
 import {
+  getLastTransactionsAsync,
   getLastWeekTransactionsAsync,
   setNewTransactionAsync,
 } from "../../../redux/transactions/transactionsSlice";
+import { formatMoney } from "../../../utils";
+import { getCardsAsync } from "../../../redux/cards/cardsSlice";
+import { getUserInfoesAsync } from "../../../redux/profile/profileSlice";
 
-const TransferInvoice = () => {
+const TransferInvoice = ({ t }) => {
   const dispatch = useDispatch();
 
   const contacts = useSelector((state) => state.contacts.userContacts.data);
@@ -43,7 +47,7 @@ const TransferInvoice = () => {
   const returnCardsNames = (cards) => {
     return cards.map((card) => {
       return {
-        fieldName: `${card.cardName}  |   $${card.cardBalance}`,
+        fieldName: `${card.cardName}  |   $${formatMoney(card.cardBalance)}`,
         _id: card._id,
       };
     });
@@ -58,7 +62,20 @@ const TransferInvoice = () => {
     });
   };
 
-  const onSubmitHandler = (e) => {
+  const performSequentialActions = (data) => {
+    return async (dispatch) => {
+      await dispatch(setNewTransactionAsync(toast, data));
+
+      await Promise.all([
+        dispatch(getLastTransactionsAsync(toast)),
+        dispatch(getLastWeekTransactionsAsync(toast)),
+        dispatch(getCardsAsync(toast)),
+        dispatch(getUserInfoesAsync(toast)),
+      ]);
+    };
+  };
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     if (
@@ -75,8 +92,7 @@ const TransferInvoice = () => {
       cardId: selectedCardId,
       categoryId: selectedCategoryId,
     };
-    dispatch(setNewTransactionAsync(toast, data));
-    dispatch(getLastWeekTransactionsAsync(toast));
+    dispatch(performSequentialActions(data));
 
     setFormValues({
       title: "",
@@ -117,23 +133,20 @@ const TransferInvoice = () => {
   // #endregion loading user list data
   return (
     <div data-loading={isLoading} className="transfer_invoice">
-      <h4>Transfer</h4>
+      <h4>{t("transfer")}</h4>
       <div className="loading"></div>
       <div className="transfer_invoice--list">
         {contacts != null &&
           contacts.map((item, index) => {
             return (
               <button
+                key={index}
                 data-active={returnDataActive(item._id)}
                 onClick={() => selectedPersonHandler(item._id)}
-                key={index}
                 className="transfer_invoice--list__item"
               >
                 <div className="img">
-                  <img
-                    src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                    alt="user"
-                  />
+                  <img src={item.profile_photo} alt="user" />
                 </div>
                 <p>{item.name}</p>
               </button>
@@ -160,7 +173,7 @@ const TransferInvoice = () => {
       </div>
       <form onSubmit={onSubmitHandler}>
         <label>
-          <p>Başlıq</p>
+          <p>{t("title")}</p>
           <input
             onChange={formHandler}
             value={formValues.title}
@@ -170,7 +183,7 @@ const TransferInvoice = () => {
           />
         </label>
         <label>
-          <p>Miqdar</p>
+          <p>{t("title")}</p>
           <input
             onChange={formHandler}
             value={formValues.amount}
@@ -178,10 +191,11 @@ const TransferInvoice = () => {
             type="number"
             placeholder="0.00"
             min={0}
+            step={0.01}
           />
         </label>
         <label>
-          <p>Kart</p>
+          <p>{t("card")}</p>
           <SelectBox
             option={selectedCard}
             setOption={setSelectedCard}
@@ -190,7 +204,7 @@ const TransferInvoice = () => {
           />
         </label>
         <label>
-          <p>Kateqoriya</p>
+          <p>{t("category")}</p>
           <SelectBox
             option={selectedCategory}
             options={
@@ -198,7 +212,7 @@ const TransferInvoice = () => {
                 ? []
                 : [
                     ...returnCategoryNames(categories),
-                    { fieldName: "Kateqoriyasız", _id: "null" },
+                    { fieldName: t("noCategory"), _id: "null" },
                   ]
             }
             setOption={setSelectedCategory}
@@ -210,7 +224,7 @@ const TransferInvoice = () => {
             <input type="checkbox" />
             <span>Lorem ipsum dolor sit amet.</span>
           </label>
-          <button type="submit">Göndər</button>
+          <button type="submit">{t("send")}</button>
         </div>
       </form>
     </div>

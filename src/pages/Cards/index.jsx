@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+
+import "./cards.scss";
+
+import { newCardAsync } from "../../redux/cards/cardsSlice";
 
 import CardItem from "../../components/CardItem/CardItem";
 import CardList from "./components/CardList/CardList";
 import CardsComp from "./components/Cards/Cards";
-import "./cards.scss";
 import SelectBox from "../../components/SelectBox";
 import Loading from "../../components/Loading";
-import { newCardAsync } from "../../redux/cards/cardsSlice";
 
 const cardDesigns = [
   {
@@ -42,7 +45,7 @@ const cardDesigns = [
 
 const yearOptions = [2, 3, 4, 5];
 
-const NewCardPopup = ({ visible, setVisible }) => {
+const NewCardPopup = ({ visible, setVisible, t }) => {
   const dispatch = useDispatch();
 
   const userInfoes = useSelector((state) => state.profile.userInfoes.data);
@@ -113,15 +116,15 @@ const NewCardPopup = ({ visible, setVisible }) => {
 
         <form onSubmit={submitHandler}>
           <label>
-            <p>Ad : </p>
+            <p>{t("name")} : </p>
             <input type="text" value={userInfoes?.name} disabled />
           </label>
           <label>
-            <p>Soyad : </p>
+            <p>{t("surname")} : </p>
             <input type="text" value={userInfoes?.surname} disabled />
           </label>
           <label>
-            <p>Kart adı : </p>
+            <p>{t("cardName")} : </p>
             <input
               value={cardName}
               onChange={(e) => setCardName(e.target.value)}
@@ -130,18 +133,20 @@ const NewCardPopup = ({ visible, setVisible }) => {
             />
           </label>{" "}
           <label>
-            <p>Əlavə qeyd : </p>
+            <p>{t("note")} : </p>
             <input type="text" name="card-name" />
           </label>
           <label>
-            <p>Kart müddəti (il) : </p>
+            <p>
+              {t("duration")} ({t("year")}) :{" "}
+            </p>
             <SelectBox
               option={yearOption}
               options={yearOptions}
               setOption={setYearOption}
             />
           </label>
-          <button type="submit">Sifarişi tamamla</button>
+          <button type="submit">{t('completeOrder')}</button>
         </form>
       </div>
     </div>
@@ -149,6 +154,8 @@ const NewCardPopup = ({ visible, setVisible }) => {
 };
 
 const Cards = () => {
+  const { t } = useTranslation();
+
   const cardList = useSelector((state) => state.cards.cards.data);
   const loadingState = useSelector(
     (state) =>
@@ -160,17 +167,19 @@ const Cards = () => {
   return (
     <div className="cards_page">
       <div className="cards_quickview">
-        <h3>Cards</h3>
+        <h3>{t("cards")}</h3>
         <NewCardPopup
           setVisible={setShowNewCardPopup}
           visible={showNewCardPopup}
+          t={t}
         />
         {loadingState && <Loading />}
         <CardsComp
           setShowNewCardPopup={setShowNewCardPopup}
           cardList={cardList ? cardList : []}
+          t={t}
         />
-        <CardList cardList={cardList ? cardList : []} />
+        <CardList t={t} cardList={cardList ? cardList : []} />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 
 import "./app.scss";
 
-function App() {
+function App({ t }) {
   return useRoutes(routes);
 }
 

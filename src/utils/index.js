@@ -1,7 +1,7 @@
 export const formatMoney = (money) => {
   return money.toLocaleString(undefined, {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 4,
   });
 };
 
@@ -62,3 +62,27 @@ const colors = {
 };
 
 export const returnColor = (color) => colors[color];
+
+export const convertBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+
+export const validationSchema = [
+  { re: /(?=.*[a-z])/, message: "Şifrədə kiçik hərf olmalıdır" },
+  { re: /(?=.*[A-Z])/, message: "Şifrədə böyük hərf olmaldır" },
+  { re: /(?=.*\d)/, message: "Şifrədə rəqəm olmalıdır" },
+  { re: /(?=.*[!@#$%^&*])/, message: "Şifrədə simvol olmalıdır" },
+  { re: /.{8,}/, message: "Şifrənin minimum uzunluğu 8 olmalıdır" },
+];

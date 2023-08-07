@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { changeCardStatus, getCards, newCard } from "../../api/cards";
+import {
+  changeCardLimit,
+  changeCardStatus,
+  getCards,
+  newCard,
+} from "../../api/cards";
 
 const initialState = {
   cards: {
@@ -11,6 +16,9 @@ const initialState = {
     data: null,
   },
   changeCardStatus: {
+    loading: false,
+  },
+  changingCardLimit: {
     loading: false,
   },
 };
@@ -34,6 +42,12 @@ export const cardsSlice = createSlice({
     setChangeCardStatusData: (state, action) => {
       state.changeCardStatus = {
         ...state.changeCardStatus,
+        ...action.payload,
+      };
+    },
+    setChangingCardLimitData: (state, action) => {
+      state.changingCardLimit = {
+        ...state.changingCardLimit,
         ...action.payload,
       };
     },
@@ -75,7 +89,23 @@ export const changeCardStatusAsync = (toast, id) => async (dispatch) => {
   dispatch(setChangeCardStatusData({ loading: false }));
 };
 
-export const { setCardsData, setNewCardData, setChangeCardStatusData } =
-  cardsSlice.actions;
+export const changeCardLimitAsync = (toast, id) => async (dispatch) => {
+  dispatch(setChangingCardLimitData({ loading: true }));
+  try {
+    const response = await changeCardLimit(id);
+    response && dispatch(setCardsData({ data: response.data }));
+    response && toast.success(response.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setChangingCardLimitData({ loading: false }));
+};
+
+export const {
+  setCardsData,
+  setNewCardData,
+  setChangeCardStatusData,
+  setChangingCardLimitData,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;

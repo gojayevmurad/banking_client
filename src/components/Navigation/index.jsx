@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./navigation.scss";
-import userPhoto from "../../assets/user_photo.jpg";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navigation = () => {
   const navigate = useNavigate();
+
   const [query, setQuery] = useState("");
   const contactNotification = useSelector(
     (state) => state.contacts.pendingContacts.data?.length
@@ -14,7 +14,7 @@ const Navigation = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("user");
-    navigate("/login");
+    window.location.replace("/login");
   };
 
   return (
@@ -84,7 +84,7 @@ const Navigation = () => {
         </div>
         <div className="user_detail">
           <div className="user_photo">
-            <img src={userPhoto} alt="" />
+            <img src={userInfoes?.profile_photo} alt="" />
           </div>
           <p className="user_name">
             {userInfoes?.name + " " + userInfoes?.surname}

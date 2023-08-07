@@ -35,8 +35,59 @@
     padding: 20px 10px;
   }
   .list {
-    & > div:first-child {
+    position: relative;
+    & > .list_slider {
       padding: 40px 0;
+    }
+    .set_limit {
+      border: none;
+      outline: none;
+      padding: 0;
+      background-color: transparent;
+      position: absolute;
+      top: 20px;
+      left: calc(100% - 40px);
+      height: 40px;
+      width: 40px;
+      cursor: pointer;
+      &::after {
+        content: "Limit";
+        height: auto;
+        width: 120px;
+        background-color: var(--color-purple);
+        color: var(--color-white);
+        font-size: 1rem;
+        top: calc(90%);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        z-index: 99;
+        cursor: default;
+        pointer-events: none;
+        box-shadow: var(--box-shadow-1);
+        border-radius: 8px;
+        transition: 0.05s linear;
+        opacity: 0;
+      }
+      svg {
+        transition: 0.2s linear;
+        opacity: 0.4;
+        &.enable-limit {
+          fill: var(--color-red);
+        }
+        &.disable-limit {
+          fill: var(--color-green);
+        }
+      }
+      &:hover {
+        &::after {
+          top: calc(100% + 0.8rem);
+          opacity: 1;
+        }
+        svg {
+          opacity: 1;
+        }
+      }
     }
     .desc {
       padding: 0 30px;
@@ -44,6 +95,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      min-height: 80px;
       div {
         .range {
           width: 300px;

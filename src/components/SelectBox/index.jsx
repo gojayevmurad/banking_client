@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./selectBox.scss";
 
-const SelectBox = ({ option, options, setOption, setId }) => {
+const SelectBox = ({ option, options, setOption, setId, notINit }) => {
   const [active, setActive] = useState(false);
 
   const changeOptionHandler = (option) => {
@@ -16,9 +16,11 @@ const SelectBox = ({ option, options, setOption, setId }) => {
   };
 
   useEffect(() => {
-    setOption(options[0]);
-    if (typeof options[0] == "object") {
-      setId(options[0]._id);
+    if (!notINit) {
+      setOption(options[0]);
+      if (typeof options[0] == "object") {
+        setId(options[0]._id);
+      }
     }
   }, [options.length]);
 

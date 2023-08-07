@@ -12,4 +12,8 @@ const changeCardStatus = (id) => {
   return axiosClient.put(`/api/cards/change-status/${id}`);
 };
 
-export { getCards, newCard, changeCardStatus };
+const changeCardLimit = (id) => {
+  return axiosClient.put(`/api/cards/change-limit/${id}`);
+};
+
+export { getCards, newCard, changeCardStatus, changeCardLimit };

@@ -56,7 +56,7 @@ export const loginAsync = (data, navigate, toast) => async (dispatch) => {
   dispatch(setLoginData({ loading: false }));
 };
 
-export const changePasswordAsync = (data, toast) => async (dispatch) => {
+export const changePasswordAsync = (toast, data) => async (dispatch) => {
   dispatch(setChangePasswordData({ loading: true }));
   try {
     const response = await changePassword(data);

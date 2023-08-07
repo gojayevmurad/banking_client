@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 import "./transactionHistory.scss";
+
 import { formatDate, formatMoney } from "../../../utils";
 import {
   acceptingTransactionAsync,
@@ -10,6 +12,7 @@ import {
   getTransactionsHistoryAsync,
   rejectTransactionAsync,
 } from "../../../redux/transactions/transactionsSlice";
+
 import Loading from "../../../components/Loading";
 import Pagination from "../../../components/Pagination";
 import Checkbox from "../../../components/Checkbox";
@@ -28,12 +31,12 @@ const returnCardsOptions = (cards) => {
   return [];
 };
 
-const ListItem = ({ item, isPending }) => {
+const ListItem = ({ item, isPending, t }) => {
   const dispatch = useDispatch();
 
   const cardsList = useSelector((state) => state.cards.cards.data);
 
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState("");
   const [selectedCardId, setSelectedCardId] = useState("");
 
@@ -60,10 +63,7 @@ const ListItem = ({ item, isPending }) => {
     <div className="transaction_history--list__item">
       <div className="transaction_history--list__item--main">
         <div className="img">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/0/00/500x500.jpg?20200619024959"
-            alt=""
-          />
+          <img src={item.profile_photo} alt="" />
         </div>
         <div>
           <p>{item.sender}</p>
@@ -99,10 +99,10 @@ const ListItem = ({ item, isPending }) => {
         onMouseDown={() => manipulateActions(item.status)}
       >
         {item.status === true
-          ? "Tamamlandı"
+          ? t("completed")
           : item.status === false
-          ? "İmtina edildi"
-          : "Gözlənilir"}
+          ? t("declined")
+          : t("pending")}
         {isPending && (
           <div className="pending_popup">
             <div
@@ -122,7 +122,7 @@ const ListItem = ({ item, isPending }) => {
                 </p>
               </div>
               <div className="transfer_to">
-                <p>Köçürməni qəbul etmək üçün kart seçin</p>
+                <p>{t("card")}</p>
                 <SelectBox
                   option={selectedCard}
                   setOption={setSelectedCard}
@@ -135,13 +135,13 @@ const ListItem = ({ item, isPending }) => {
                   onClick={() => acceptHandler(item._id)}
                   className="accept_transaction"
                 >
-                  Qəbul et
+                  {t("accept")}
                 </button>
                 <button
                   onClick={() => rejectHandler(item._id)}
                   className="reject_transaction"
                 >
-                  İmtina et
+                  {t("decline")}
                 </button>
               </div>
             </div>
@@ -154,6 +154,8 @@ const ListItem = ({ item, isPending }) => {
 };
 
 const TransactionHistory = () => {
+  const { t } = useTranslation();
+
   const [showPendings, setShowPendings] = useState(false);
 
   const dispatch = useDispatch();
@@ -202,9 +204,9 @@ const TransactionHistory = () => {
     <div className="transaction_history">
       {mainLoading && <Loading />}
       <div className="transaction_history--actions">
-        <h3 className="header">Transaction History</h3>
+        <h3 className="header">{t("transactionHistory")}</h3>
         <div>
-          <p>Show pendings</p>
+          <p>{t("showPendings")}</p>
           <Checkbox setValue={setShowPendings} value={showPendings} />
         </div>
       </div>
@@ -213,21 +215,21 @@ const TransactionHistory = () => {
           <div className="transaction_history--list__item header ">
             <div className="transaction_history--list__item--main">
               <div>
-                <p>Alıcı/Göndərən</p>
+                <p>{t("recieverSender")}</p>
               </div>
             </div>
             <div className="transaction_history--list__item--id">
-              Tranzaksiya İD
+              {t("transactionId")}
             </div>
             <div className="transaction_history--list__item--date">Tarix</div>
             <div className="transaction_history--list__item--amount">
-              Məbləğ
+              {t("amount")}
             </div>
             <div className="transaction_history--list__item--service">
-              Başlıq
+              {t("title")}
             </div>
             <div className="transaction_history--list__item--status">
-              Status
+              {t("status")}
             </div>
           </div>
           {showPendings &&
@@ -237,12 +239,13 @@ const TransactionHistory = () => {
                 key={index}
                 item={{ ...item, status: "Pending" }}
                 isPending={true}
+                t={t}
               />
             ))}
           {!showPendings &&
             transactionHistoryData.data &&
             transactionHistoryData.data.map((item, index) => (
-              <ListItem key={index} item={item} isPending={false} />
+              <ListItem t={t} key={index} item={item} isPending={false} />
             ))}
         </div>
         <div className="transaction_history--bottom">
