@@ -101,6 +101,15 @@ export const changeCardLimitAsync = (toast, id) => async (dispatch) => {
   dispatch(setChangingCardLimitData({ loading: false }));
 };
 
+export const setCardLimitAsync = (toast, id) => async (dispatch) => {
+  dispatch(setChangingCardLimitData({ loading: true }));
+  try {
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setChangingCardLimitData({ loading: false }));
+};
+
 export const {
   setCardsData,
   setNewCardData,

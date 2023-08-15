@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { socket } from "../../socket";
+import { toast } from "react-hot-toast";
 
 import "./chat.scss";
 
+import {
+  getMessagesAsync,
+  resetMessages,
+  setNewMessageData,
+  setReaded,
+} from "../../redux/messages/messagesSlice";
+
 const Chat = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  const myId = useSelector((state) => state.profile.userInfoes.data?._id);
+  const messages = useSelector((state) => state.messages.messages.data);
+  const messagesLoading = useSelector(
+    (state) => state.messages.messages.loading
+  );
+  const usersList = useSelector((state) => state.contacts.userContacts.data);
+
+  // CHAT STATES
   const [activeChatId, setActiveChatId] = useState("");
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState({});
-
-  const usersList = useSelector((state) => state.contacts.userContacts.data);
 
   const changeActiveChatHandler = (id) => {
     activeChatId == id ? setActiveChatId("") : setActiveChatId(id);
@@ -24,35 +38,47 @@ const Chat = () => {
   const item = {
     isActive: true,
   };
+  //#region messages readed
+
+  const messagesReaded = (data) => {
+    dispatch(setReaded({ id: data.id }));
+  };
+
+  //#endregion
+
   //#region send & recieve message
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    socket.emit("send_message", { message, recepientId: activeChatId });
+    socket.emit("send_message", { message, recipientId: activeChatId });
 
     const newMessage = {
       content: message,
-      fromFriend: false,
+      recipientId: activeChatId,
+      senderId: myId,
+      isReaded: true,
       date: Date.now(),
     };
 
-    setMessages((prevMessages) => ({
-      ...prevMessages,
-      [activeChatId]: [...(prevMessages[activeChatId] || []), newMessage],
-    }));
+    dispatch(setNewMessageData({ chatId: activeChatId, newMessage }));
     setMessage("");
   };
 
-  const handleReceiveMessage = (data) => {
+  const handleReceiveMessage = (data, activeChatId) => {
+    const isEqual = (data1, data2) => {
+      return data1 === data2;
+    };
+    const readedByMe = isEqual(data.userId, activeChatId);
+
     const newMessage = {
-      fromFriend: true,
+      senderId: data.userId,
+      recipientId: myId,
       content: data.message,
+      isReaded: false,
       date: Date.now(),
     };
-    setMessages((prevMessages) => ({
-      ...prevMessages,
-      [data.userId]: [...(prevMessages[data.userId] || []), newMessage],
-    }));
+    dispatch(setNewMessageData({ chatId: data.userId, newMessage }));
+    if (readedByMe) socket.emit("readed", { connectionId: data.userId });
   };
   //#endregion send & recieve message
 
@@ -70,20 +96,59 @@ const Chat = () => {
       if (listItem) {
         listItem.scrollTop = listItem.scrollHeight + 38;
       }
+
+      if (!messages[activeChatId] || messages[activeChatId.length]) {
+        dispatch(getMessagesAsync(toast, { contactId: activeChatId }));
+      }
+
+      socket.emit("readed", { connectionId: activeChatId });
     }
   }, [activeChatId]);
+
+  useEffect(() => {
+    if (activeChatId !== "" && messages[activeChatId]) {
+      socket.emit("readed", { connectionId: activeChatId });
+    }
+  }, [messages]);
+
   //#endregion scroll down
 
   useEffect(() => {
-    socket.on("receive_message", handleReceiveMessage);
+    socket.on("receive_message", (data) => {
+      handleReceiveMessage(data, activeChatId);
+    });
+    socket.on("readed", messagesReaded);
     return () => {
-      socket.off("receive_message", handleReceiveMessage);
+      socket.off("receive_message", (data) => {
+        handleReceiveMessage(data, activeChatId);
+      });
+      socket.off("readed", messagesReaded);
     };
   }, [socket]);
 
   useEffect(() => {
     location.state && setActiveChatId(location.state.id);
+    location.state &&
+      dispatch(getMessagesAsync(toast, { contactId: activeChatId }));
+
+    return () => {
+      dispatch(resetMessages());
+    };
   }, []);
+
+  const getUnreadedMessagesCount = (id) => {
+    if (messages && messages[id]) {
+      let count = 0;
+      messages[id].forEach((item) => {
+        if (!item.isReaded) {
+          count++;
+        }
+      });
+      return count;
+    } else {
+      return 0;
+    }
+  };
 
   return (
     <div className="messages_page">
@@ -119,10 +184,7 @@ const Chat = () => {
                   >
                     <div>
                       <div className="img">
-                        <img
-                          src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                          alt=""
-                        />
+                        <img src={item.profile_photo} alt="" />
                       </div>
                       <div className="desc">
                         <p>{item.name + " " + item.surname}</p>
@@ -131,7 +193,7 @@ const Chat = () => {
                     </div>
                     <div className="details">
                       <p>12:45 PM</p>
-                      <span>2</span>
+                      <span>{getUnreadedMessagesCount(item._id)}</span>
                     </div>
                   </button>
                 );
@@ -144,10 +206,7 @@ const Chat = () => {
               <div className="active_chat--head">
                 <div className="active_chat--head__data">
                   <div className="img">
-                    <img
-                      src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                      alt=""
-                    />
+                    <img src={selectedPersonData.profile_photo} alt="" />
                   </div>
                   <div className="desc">
                     <p>
@@ -164,19 +223,67 @@ const Chat = () => {
                   <button className="more">•••</button>
                 </div>
               </div>
-              <div data-loading={false} className="active_chat--messages">
-                {messages[activeChatId] &&
+              <div
+                data-loading={messagesLoading}
+                className="active_chat--messages"
+              >
+                {myId &&
+                  messages[activeChatId] &&
                   messages[activeChatId].map((message, index) => {
+                    const fromContact = !(message.senderId == myId);
                     return (
                       <div
                         key={index}
                         className={
-                          message.fromFriend
+                          fromContact
                             ? "contact-message message"
                             : "your-message message"
                         }
                       >
-                        <p>{message.content}</p>
+                        <p>
+                          {message.content}
+                          {!fromContact &&
+                            (message.isReaded ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                id="check"
+                              >
+                                <path
+                                  stroke="#fff"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M16 8L8.70711 15.2929C8.31658 15.6834 7.68342 15.6834 7.29289 15.2929L4 12"
+                                ></path>
+                                <path
+                                  stroke="#fff"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M22 8L14.7071 15.2929C14.3166 15.6834 13.6834 15.6834 13.2929 15.2929L11 13"
+                                ></path>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="15"
+                                height="15"
+                                viewBox="0 0 96 96"
+                                id="check"
+                                fill="#fff"
+                              >
+                                <switch>
+                                  <g>
+                                    <path d="M36 76a3.999 3.999 0 0 1-2.828-1.171l-24-24.001a4 4 0 1 1 5.656-5.656L36 66.344l45.172-45.172a4 4 0 1 1 5.656 5.657l-48 48A3.999 3.999 0 0 1 36 76z"></path>
+                                  </g>
+                                </switch>
+                              </svg>
+                            ))}
+                        </p>
                       </div>
                     );
                   })}

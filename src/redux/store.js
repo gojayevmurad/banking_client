@@ -5,6 +5,7 @@ import cardsSlice from "./cards/cardsSlice";
 import transactionsSlice from "./transactions/transactionsSlice";
 import contactsSlice from "./contacts/contactsSlice";
 import categoriesSlice from "./categories/categoriesSlice";
+import messagesSlice from "./messages/messagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     transactions: transactionsSlice,
     contacts: contactsSlice,
     categories: categoriesSlice,
+    messages: messagesSlice,
   },
 });

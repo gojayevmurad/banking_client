@@ -152,6 +152,7 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 20px;
+      position: relative;
       &--head {
         height: 50px;
         display: flex;
@@ -229,7 +230,7 @@
           padding: 8px 16px;
           border-radius: 10px;
           margin-right: 10px;
-          
+
           &.contact-message {
             background-color: var(--color-grey-second);
             color: var(--color-text);
@@ -238,6 +239,13 @@
             background-color: var(--color-purple);
             color: var(--color-white);
             align-self: flex-end;
+            p {
+              display: flex;
+              flex-direction: column;
+              svg {
+                align-self: flex-end;
+              }
+            }
           }
         }
         &[data-loading="true"] {

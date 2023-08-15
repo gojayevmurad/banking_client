@@ -8,7 +8,7 @@ export const formatMoney = (money) => {
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   const options = { year: "numeric", month: "long", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
+  return date.toLocaleDateString("en-EN", options);
 };
 
 export function formatTime(dateString) {
@@ -77,7 +77,6 @@ export const convertBase64 = (file) => {
     };
   });
 };
-
 
 export const validationSchema = [
   { re: /(?=.*[a-z])/, message: "Şifrədə kiçik hərf olmalıdır" },

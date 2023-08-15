@@ -212,6 +212,10 @@
               border-radius: 50%;
               transform-origin: center;
               transition: 0.15s linear;
+              position: relative;
+              background: transparent
+                url(https://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif)
+                center center no-repeat;
             }
           }
           &:hover,

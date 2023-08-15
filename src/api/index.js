@@ -76,6 +76,9 @@ axiosClientFree.interceptors.response.use(
     return response.data;
   },
   function (error) {
+    if (error.response.status === 403) {
+      window.location.replace("/register?id=" + error.response.data.data.email);
+    }
     return Promise.reject(error.response.data);
   }
 );

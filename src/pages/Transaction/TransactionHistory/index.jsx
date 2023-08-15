@@ -132,16 +132,16 @@ const ListItem = ({ item, isPending, t }) => {
               </div>
               <div className="actions">
                 <button
-                  onClick={() => acceptHandler(item._id)}
-                  className="accept_transaction"
-                >
-                  {t("accept")}
-                </button>
-                <button
                   onClick={() => rejectHandler(item._id)}
                   className="reject_transaction"
                 >
                   {t("decline")}
+                </button>
+                <button
+                  onClick={() => acceptHandler(item._id)}
+                  className="accept_transaction"
+                >
+                  {t("accept")}
                 </button>
               </div>
             </div>
@@ -249,14 +249,10 @@ const TransactionHistory = () => {
             ))}
         </div>
         <div className="transaction_history--bottom">
-          <p>
-            {/* Showing 1-
-            {transactionHistoryData && transactionHistoryData.length > 5
-              ? 5
-              : transactionHistoryData && transactionHistoryData.length}{" "}
-            from {transactionHistoryData && transactionHistoryData.length} data */}
-          </p>
-          {!showPendings && paginationHistory.content}
+          <p></p>
+          {!showPendings &&
+            transactionHistoryData.total > 5 &&
+            paginationHistory.content}
         </div>
       </div>
     </div>

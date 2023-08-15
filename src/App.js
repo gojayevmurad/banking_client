@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom";
+
 import routes from "./routes";
 
 import "swiper/css";
@@ -7,7 +8,7 @@ import "swiper/css/pagination";
 
 import "./app.scss";
 
-function App({ t }) {
+function App() {
   return useRoutes(routes);
 }
 

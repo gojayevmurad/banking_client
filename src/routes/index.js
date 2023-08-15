@@ -12,6 +12,8 @@ import PrivateRoute from "./PrivateRoute";
 
 import TransactionHistory from "../pages/Transaction/TransactionHistory";
 import TransactionDetail from "../pages/Transaction/TransactionDetail";
+import ForgotPass from "../pages/ForgotPass";
+import PasswordReset from "../pages/PasswordReset";
 
 const routes = [
   {
@@ -66,6 +68,14 @@ const routes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPass />,
+  },
+  {
+    path: "/reset-password/:id/:token",
+    element: <PasswordReset />,
   },
 ];
 const authMap = (routes) => {

@@ -72,4 +72,12 @@ export const enTranslations = {
   save: "Save",
   delete: "Delete",
   settings: "Settings",
+  dismiss: "Dismiss",
+  welcome: "Welcome",
+  signIn: "Sign In",
+  email: "Email Address",
+  password: "Password",
+  continue: "Continue",
+  dontHaveAccount: "Don't have an account?",
+  forgotPass: "Forgot Password?",
 };

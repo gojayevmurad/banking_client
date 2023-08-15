@@ -39,7 +39,7 @@ const SideBar = () => {
     <div className="sidebar">
       <div className="content">
         <h3 className="sidebar--logo">
-          <p>T</p> Tagih
+          <p>T</p>agih
         </h3>
 
         <div>

@@ -1,29 +1,219 @@
-.login-page {
-    background-color: var(--color-purple);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .wrapper {
+    box-shadow: 0 0 50px 2px rgba(0, 0, 0, 0.5);
+    height: 600px;
+    width: 900px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    aside {
+      position: relative;
+      background-color: var(--color-purple);
+      h3 {
+        padding: 0 30px;
+        color: var(--color-white);
+        font-weight: 700 !important;
+        font-size: 3rem;
+        margin: 30px 0;
+        text-align: left;
+      }
+      .content {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        p {
+          font-size: 2.5rem;
+          font-weight: 600;
+          text-align: center;
+          color: var(--color-white);
+          opacity: 0.8;
+        }
+        span {
+          display: inline-block;
+          font-size: 1.4rem;
+          width: max-content;
+          color: var(--color-white);
+          opacity: 0.7;
+        }
+      }
+    }
     form {
-      padding: 40px 20px;
-      border-radius: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 10px;
+      font-weight: 500;
+      padding: 80px 40px;
+      text-transform: uppercase;
       background-color: var(--color-white);
+      overflow: hidden;
+      position: relative;
+
+      .register_step_one,
+      .register_step_two,
+      .register_step_three {
+        transition: 0.2s linear;
+      }
+
+      .steps-line,
+      .steps {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .steps-line {
+        padding: 0 65px;
+
+        .line-one,
+        .line-two {
+          width: 140px;
+          height: 5px;
+          .fill {
+            width: 0;
+            height: 100%;
+            transition: 0.2s linear;
+          }
+          &[data-active="active"] {
+            .fill {
+              width: 100%;
+              background-color: var(--color-purple);
+            }
+          }
+        }
+      }
+
+      .steps {
+        font-size: 0.8rem;
+        .step {
+          width: 30px;
+          height: 30px;
+          background-color: var(--color-grey);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          position: relative;
+          transition: 0.2s;
+          .step--count {
+            color: var(--color-white);
+            font-size: 1.2rem;
+          }
+          p {
+            position: absolute;
+            width: max-content;
+            top: 35px;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+          &.active {
+            background-color: var(--color-purple);
+            p {
+              color: var(--color-purple);
+              font-weight: 600;
+            }
+          }
+        }
+      }
+      .step--forms {
+        display: flex;
+        justify-content: space-between;
+        gap: 80px;
+        width: max-content;
+      }
+      .step--forms div {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        width: 370px !important;
+      }
+
+      h4 {
+        font-size: 2rem;
+        color: var(--color-text);
+        text-align: start;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      label {
+        width: 100%;
+        input {
+          border-bottom: 3px solid var(--color-purple) !important;
+          font-size: 1rem;
+        }
+        .verification {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          text-align: center;
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+      }
       input,
       button {
+        width: 100%;
         border: none;
         outline: none;
-        background-color: var(--color-red) !important;
-      }
-      input {
-        width: 400px;
-        height: 30px;
+        height: 50px;
         padding: 5px 10px;
+      }
+
+      button {
+        background-color: var(--color-purple);
+        color: var(--color-white);
+        font-weight: 500;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        &:disabled {
+          background-color: var(--color-grey);
+          position: relative;
+          p {
+            display: none;
+          }
+          &::after {
+            content: "";
+            width: 37px;
+            height: 37px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid var(--color-white);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: main-loading 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
+              infinite;
+          }
+        }
+      }
+
+      .login_btn,
+      .reset_password_btn {
+        background-color: transparent;
+        color: var(--color-text);
+        text-decoration: underline;
+        width: max-content;
+        transition: 0.2s linear;
+        &:hover {
+          color: var(--color-purple);
+        }
+      }
+      .login_btn {
+      }
+      .reset_password_btn {
       }
     }
   }
-  
+}

@@ -116,7 +116,7 @@ const TransferInvoice = ({ t }) => {
     <button data-loading="true" className="transfer_invoice--list__item">
       <div className="img">
         <img
-          src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
+          src=""
           alt="user"
         />
       </div>

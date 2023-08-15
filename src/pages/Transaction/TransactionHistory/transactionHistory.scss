@@ -110,13 +110,14 @@
         width: 180px;
       }
       &--status {
-        width: 100px;
+        width: 120px;
         padding: 5px 10px;
         display: flex;
         justify-content: center;
         align-items: center;
         color: var(--color-white);
         cursor: default;
+        border-radius: 9px;
         &[data-show="true"] {
           .pending_popup {
             opacity: 1;

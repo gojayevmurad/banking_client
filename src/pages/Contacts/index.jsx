@@ -75,10 +75,7 @@ const Contacts = () => {
               return (
                 <div key={index} className="contacts--list__item pending">
                   <div className="contacts--list__item--img">
-                    <img
-                      src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                      alt=""
-                    />
+                    <img src={item.profile_photo} alt="" />
                   </div>
                   <div className="contacts--list__item--data">
                     <p>{item.name + " " + item.surname}</p>
@@ -122,10 +119,7 @@ const Contacts = () => {
               return (
                 <div key={index} className="contacts--list__item">
                   <div className="contacts--list__item--img">
-                    <img
-                      src="https://www.realmeye.com/forum/uploads/default/optimized/3X/1/d/1d423de54aa8e5836c8fee9d038bf81f44c63b98_1_500x500.jpg"
-                      alt=""
-                    />
+                    <img src={item.profile_photo} alt="" />
                   </div>
                   <div className="contacts--list__item--data">
                     <p>{item.name + " " + item.surname}</p>
@@ -135,7 +129,7 @@ const Contacts = () => {
                     <button
                       onClick={() =>
                         navigate("/chat", {
-                          state: {id : item._id},
+                          state: { id: item._id },
                         })
                       }
                       className="message"
