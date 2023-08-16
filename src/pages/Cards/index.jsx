@@ -117,11 +117,16 @@ const NewCardPopup = ({ visible, setVisible, t }) => {
         <form onSubmit={submitHandler}>
           <label>
             <p>{t("name")} : </p>
-            <input type="text" value={userInfoes?.name} disabled />
+            <input type="text" name="name" value={userInfoes?.name} disabled />
           </label>
           <label>
             <p>{t("surname")} : </p>
-            <input type="text" value={userInfoes?.surname} disabled />
+            <input
+              type="text"
+              name="surname"
+              value={userInfoes?.surname}
+              disabled
+            />
           </label>
           <label>
             <p>{t("cardName")} : </p>
@@ -129,16 +134,16 @@ const NewCardPopup = ({ visible, setVisible, t }) => {
               value={cardName}
               onChange={(e) => setCardName(e.target.value)}
               type="text"
-              name="card-name"
+              autoComplete="disabled"
             />
-          </label>{" "}
+          </label>
           <label>
             <p>{t("note")} : </p>
-            <input type="text" name="card-name" />
+            <input type="text" name="orderNote" />
           </label>
           <label>
             <p>
-              {t("duration")} ({t("year")}) :{" "}
+              {t("duration")} ({t("year")}) :
             </p>
             <SelectBox
               option={yearOption}
@@ -146,7 +151,7 @@ const NewCardPopup = ({ visible, setVisible, t }) => {
               setOption={setYearOption}
             />
           </label>
-          <button type="submit">{t('completeOrder')}</button>
+          <button type="submit">{t("completeOrder")}</button>
         </form>
       </div>
     </div>

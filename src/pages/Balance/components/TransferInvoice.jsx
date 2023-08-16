@@ -183,7 +183,7 @@ const TransferInvoice = ({ t }) => {
           />
         </label>
         <label>
-          <p>{t("title")}</p>
+          <p>{t("amount")}</p>
           <input
             onChange={formHandler}
             value={formValues.amount}

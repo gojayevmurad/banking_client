@@ -68,7 +68,7 @@ const MainLayout = () => {
   useEffect(() => {
     socket.on("notification", (data) => {
       toast(
-        (toastData) => (
+          (toastData) => (
           <div className="toast_notification">
             <div className="img">
               <img src={data.sender_photo} />
