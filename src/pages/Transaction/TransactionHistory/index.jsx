@@ -17,6 +17,9 @@ import Loading from "../../../components/Loading";
 import Pagination from "../../../components/Pagination";
 import Checkbox from "../../../components/Checkbox";
 import SelectBox from "../../../components/SelectBox";
+import { getUserInfoesAsync } from "../../../redux/profile/profileSlice";
+import { getCardsAsync } from "../../../redux/cards/cardsSlice";
+import { getIncomeCategoriesAsync } from "../../../redux/categories/categoriesSlice";
 
 const returnCardsOptions = (cards) => {
   if (cards) {
@@ -31,20 +34,49 @@ const returnCardsOptions = (cards) => {
   return [];
 };
 
-const ListItem = ({ item, isPending, t }) => {
-  const dispatch = useDispatch();
+const returnCategoriesOptions = (categories) => {
+  if (categories) {
+    return categories.map((category) => {
+      return {
+        fieldName: category.categoryName,
+        _id: category._id,
+      };
+    });
+  }
 
-  const cardsList = useSelector((state) => state.cards.cards.data);
+  return [];
+};
+
+const ListItem = ({ categoriesList, cardsList, item, isPending, t }) => {
+  const dispatch = useDispatch();
 
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState("");
   const [selectedCardId, setSelectedCardId] = useState("");
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+
+  const acceptPerformSequentialActions = (id) => {
+    return async (dispatch) => {
+      await dispatch(
+        acceptingTransactionAsync(toast, id, selectedCardId, selectedCategoryId)
+      );
+
+      await Promise.all([
+        dispatch(getUserInfoesAsync(toast)),
+        dispatch(getCardsAsync(toast)),
+        dispatch(getIncomeCategoriesAsync(toast)),
+      ]);
+    };
+  };
+
   const acceptHandler = (id) => {
     if (selectedCardId.trim().length == 0) {
       return toast.error("Kart seçin");
     }
-    dispatch(acceptingTransactionAsync(toast, id, selectedCardId));
+
+    dispatch(acceptPerformSequentialActions(id));
     setShowPopup(false);
   };
   const rejectHandler = (id) => {
@@ -121,14 +153,25 @@ const ListItem = ({ item, isPending, t }) => {
                   <span>${item.amount}</span> məbləğindəki köçürməni :
                 </p>
               </div>
-              <div className="transfer_to">
-                <p>{t("card")}</p>
-                <SelectBox
-                  option={selectedCard}
-                  setOption={setSelectedCard}
-                  options={returnCardsOptions(cardsList)}
-                  setId={setSelectedCardId}
-                />
+              <div className="options">
+                <div className="transfer_to">
+                  <p>{t("card")}</p>
+                  <SelectBox
+                    option={selectedCard}
+                    setOption={setSelectedCard}
+                    options={returnCardsOptions(cardsList)}
+                    setId={setSelectedCardId}
+                  />
+                </div>
+                <div className="transfer_category">
+                  <p>{t("category")}</p>
+                  <SelectBox
+                    option={selectedCategory}
+                    setOption={setSelectedCategory}
+                    setId={setSelectedCategoryId}
+                    options={returnCategoriesOptions(categoriesList)}
+                  />
+                </div>
               </div>
               <div className="actions">
                 <button
@@ -156,6 +199,11 @@ const ListItem = ({ item, isPending, t }) => {
 const TransactionHistory = () => {
   const { t } = useTranslation();
 
+  const cardsList = useSelector((state) => state.cards.cards.data);
+  const incomeCategories = useSelector(
+    (state) => state.categories.incomeCategories.data
+  );
+
   const [showPendings, setShowPendings] = useState(false);
 
   const dispatch = useDispatch();
@@ -170,6 +218,10 @@ const TransactionHistory = () => {
 
   const pendingTransactionsData = useSelector(
     (state) => state.transactions.pendingTransactions.data
+  );
+
+  const categoriesList = useSelector(
+    (state) => state.categories.incomeCategories.data
   );
 
   const paginationHistory = Pagination({
@@ -236,16 +288,24 @@ const TransactionHistory = () => {
             pendingTransactionsData &&
             pendingTransactionsData.map((item, index) => (
               <ListItem
+                cardsList={cardsList}
                 key={index}
                 item={{ ...item, status: "Pending" }}
                 isPending={true}
+                categoriesList={categoriesList}
                 t={t}
               />
             ))}
           {!showPendings &&
             transactionHistoryData.data &&
             transactionHistoryData.data.map((item, index) => (
-              <ListItem t={t} key={index} item={item} isPending={false} />
+              <ListItem
+                cardsList={cardsList}
+                t={t}
+                key={index}
+                item={item}
+                isPending={false}
+              />
             ))}
         </div>
         <div className="transaction_history--bottom">

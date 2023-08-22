@@ -24,6 +24,7 @@ const MainStatus = ({ t }) => {
           data-loading={lastestTransactions.loading}
         >
           {lastestTransactions.data &&
+            lastestTransactions.data.length > 0 &&
             lastestTransactions.data.map((item, index) => {
               if (index < 5) {
                 return (
@@ -99,6 +100,11 @@ const MainStatus = ({ t }) => {
                 );
               }
             })}
+          {lastestTransactions.data && lastestTransactions.data.length == 0 && (
+            <p className="lastest_transaction--content_empty">
+              Transfer keçmişi boşdur.
+            </p>
+          )}
         </div>
       </div>
       <div className="earning_categories">
@@ -109,6 +115,7 @@ const MainStatus = ({ t }) => {
         >
           <div className="loading"></div>
           {incomeCategories &&
+            incomeCategories.length > 0 &&
             incomeCategories.map((item, index) => {
               return (
                 <div key={index} className="item">
@@ -154,15 +161,21 @@ const MainStatus = ({ t }) => {
                       ></div>
                     </div>
                     <p>
-                      ${formatMoney(item.amount)}{" "}
+                      ${formatMoney(item.amount ? item.amount : 0)}
                       <span data-color={item.color}>
-                        /{t("from")} ${formatMoney(item.target)}
+                        /{t("from")} $
+                        {formatMoney(item.target ? item.target : 0)}
                       </span>
                     </p>
                   </div>
                 </div>
               );
             })}
+          {incomeCategories?.length == 0 && (
+            <p className="earning_categories--empty">
+              Gəlir kateqoriyanız mövcud deyil
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { formatDate, formatMoney, formatTime } from "../../../utils";
-import logo from "../../../assets/user_photo.jpg";
 import { useSelector } from "react-redux";
 
 const TransferHistory = ({ t }) => {

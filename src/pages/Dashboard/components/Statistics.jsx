@@ -121,7 +121,13 @@ const Statistics = ({ incomes, expenses, t }) => {
       </div>
       <div className="statistics--outcome">
         <h4>{t("outcomeCategories")}</h4>
-        <ReactECharts option={outcomeOptions} showLoading={outcomeLoading} />
+        {outcomeLoading.length ? (
+          <ReactECharts option={outcomeOptions} showLoading={outcomeLoading} />
+        ) : (
+          <p className="statistics--outcome_empty">
+            Xərc kateqoriyanız mövcud deyil
+          </p>
+        )}
       </div>
     </div>
   );

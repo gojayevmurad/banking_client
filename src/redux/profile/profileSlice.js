@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { changeProfilePhoto, getUserInfoes } from "../../api/profile";
+import {
+  changeNotification,
+  changeProfilePhoto,
+  getUserInfoes,
+} from "../../api/profile";
 
 const initialState = {
   userInfoes: {
@@ -37,6 +41,17 @@ export const changeProfilePhotoAsync = (toast, data) => async (dispatch) => {
   try {
     const response = await changeProfilePhoto(data);
     response && dispatch(setUserInfoes({ data: response.data }));
+    response && toast.success(response.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+  dispatch(setUserInfoes({ loading: false }));
+};
+
+export const changeNotificationAsync = (toast) => async (dispatch) => {
+  dispatch(setUserInfoes({ loading: true }));
+  try {
+    const response = await changeNotification();
     response && toast.success(response.message);
   } catch (err) {
     toast.error(err.message);

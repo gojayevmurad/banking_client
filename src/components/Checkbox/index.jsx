@@ -1,15 +1,20 @@
 import React from "react";
 import "./checkbox.scss";
 
-const Checkbox = ({ value, setValue }) => {
+const Checkbox = ({ value, setValue, loading }) => {
   const onClickHandler = () => {
     setValue(!value);
   };
   return (
-    <button onClick={onClickHandler} id="checkbox">
-      {value && <p>On</p>}
+    <button
+      disabled={loading}
+      onClick={onClickHandler}
+      data-active={value}
+      id="checkbox"
+    >
+      {!loading && value && <p>On</p>}
       <div className="circle"></div>
-      {!value && <p>Off</p>}
+      {!loading && !value && <p>Off</p>}
     </button>
   );
 };

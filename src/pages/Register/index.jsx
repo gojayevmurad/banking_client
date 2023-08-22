@@ -7,6 +7,7 @@ import { registerAsync, verifyEmailAsync } from "../../redux/auth/authSlice";
 
 import "./register.scss";
 import OtpVerification from "../../components/Otp";
+import { validationSchema } from "../../utils";
 
 const date = new Date();
 const today = `${date.getFullYear() - 18}-${
@@ -62,6 +63,18 @@ const Register = () => {
     if (!formDatas.email.trim().length || !formDatas.password.trim().length) {
       return toast.error("Formu doldurun");
     }
+
+    if (formDatas.password !== formDatas.rePassword) {
+      return toast.error("Şifrələr eyni deyil");
+    }
+
+    for (const validate of validationSchema) {
+      if (!validate.re.test(formDatas.password)) {
+        toast.error(validate.message);
+        return;
+      }
+    }
+
     const data = {
       name: formDatas.name.trim(),
       surname: formDatas.surname.trim(),

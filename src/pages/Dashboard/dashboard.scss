@@ -151,6 +151,13 @@
       left: 20px;
     }
   }
+  &--outcome_empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+  }
 }
 
 .main_status {
@@ -200,6 +207,13 @@
             animation: main-loading 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
               infinite;
           }
+        }
+        &_empty {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.1rem;
         }
         & > div {
           display: flex;
@@ -458,6 +472,14 @@
           background-color: var(--color-grey);
           color: var(--color-white);
         }
+      }
+      .earning_categories--empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: max-content;
+        font-size: 1.1rem;
       }
     }
   }

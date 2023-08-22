@@ -161,7 +161,7 @@
             transform: translate(-50%, -50%) scale(0.8);
             background-color: var(--color-white);
             width: 600px;
-            height: 340px;
+            height: 390px;
             border-radius: 40px;
             box-shadow: var(--box-shadow-1);
             padding: 20px;
@@ -185,18 +185,26 @@
                 }
               }
             }
-            .transfer_to {
+            .options {
               display: flex;
               align-items: center;
-              justify-content: center;
-              margin: 10px auto;
-              gap: 10px;
-              width: min-content;
-              & > p {
-                color: var(--color-text);
-                font-weight: 600;
+              justify-content: space-between;
+              margin: 20px 0;
+              .transfer_to,
+              .transfer_category {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 10px auto;
+                gap: 10px;
+                width: min-content;
+                & > p {
+                  color: var(--color-text);
+                  font-weight: 600;
+                }
               }
             }
+
             .actions {
               display: flex;
               justify-content: center;

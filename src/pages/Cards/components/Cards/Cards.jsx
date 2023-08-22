@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 
 import "swiper/css";
@@ -10,12 +10,19 @@ import "swiper/css/effect-cards";
 import "./cards.scss";
 import CardItem from "../../../../components/CardItem/CardItem";
 import { formatMoney } from "../../../../utils";
-import { changeCardLimitAsync } from "../../../../redux/cards/cardsSlice";
+import {
+  changeCardLimitAsync,
+  getCardsAsync,
+  setLimitAsync,
+} from "../../../../redux/cards/cardsSlice";
 
 const Cards = ({ cardList, setShowNewCardPopup, t }) => {
   const dispatch = useDispatch();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [changeLimit, setChangeLimit] = useState(false);
+
+  const isDisabled = useSelector((state) => state.cards.changingLimit.loading);
 
   const slideChangeHandler = (swiper) => {
     setCurrentIndex(swiper.activeIndex);
@@ -25,16 +32,46 @@ const Cards = ({ cardList, setShowNewCardPopup, t }) => {
     dispatch(changeCardLimitAsync(toast, id));
   };
 
+  const performSequentialActions = (setLimitData) => {
+    return async (dispatch) => {
+      await dispatch(setLimitAsync(toast, setLimitData));
+
+      await Promise.all([dispatch(getCardsAsync(toast))]);
+    };
+  };
+
+  const newLimitHandler = (e) => {
+    e.preventDefault();
+
+    const newLimitValue = +e.target.limit.value;
+
+    if (
+      cardList[currentIndex].limit.amount > newLimitValue ||
+      cardList[currentIndex].limit.amount == newLimitValue
+    ) {
+      return toast.error("Yeni limit kart xərclərindən böyük olmalıdır");
+    }
+
+    const setLimitData = {
+      cardId: cardList[currentIndex]._id,
+      newLimit: newLimitValue,
+    };
+
+    dispatch(performSequentialActions(setLimitData));
+
+    setChangeLimit(false);
+  };
+
   return (
     <div className="cards">
       <div className="list">
-        <button
-          onClick={() => cardLimitHandler(cardList[currentIndex]._id)}
-          className="set_limit"
-        >
-          {cardList.length > 0 &&
-            cardList[currentIndex].status &&
-            (cardList[currentIndex].limit.isActive ? (
+        {cardList.length > 0 && cardList[currentIndex].status && (
+          <button
+            onClick={() => cardLimitHandler(cardList[currentIndex]._id)}
+            disabled={isDisabled}
+            className="set_limit"
+          >
+            {cardList[currentIndex].limit.isActive ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 enableBackground="new 0 0 24 24"
@@ -101,8 +138,9 @@ const Cards = ({ cardList, setShowNewCardPopup, t }) => {
                 ></path>
                 <path d="M8,14H7c-0.5522,0-1,0.4473-1,1s0.4478,1,1,1h1c0.5522,0,1-0.4473,1-1S8.5522,14,8,14z"></path>
               </svg>
-            ))}
-        </button>
+            )}
+          </button>
+        )}
         <div className="list_slider">
           <Swiper
             effect={"cards"}
@@ -131,7 +169,71 @@ const Cards = ({ cardList, setShowNewCardPopup, t }) => {
               cardList[currentIndex].status &&
               cardList[currentIndex].limit.isActive && (
                 <div>
-                  <p>{t("limit")}</p>
+                  <div className="main">
+                    <p>{t("limit")}</p>
+                    <div className="actions">
+                      <button
+                        className="change-limit"
+                        onClick={() => setChangeLimit(true)}
+                        data-visible={!changeLimit}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 32 32"
+                          id="edit"
+                          height={20}
+                          width={20}
+                        >
+                          <g data-name="81 Edit">
+                            <path
+                              fill="#"
+                              d="M24,29.5H6A3.5,3.5,0,0,1,2.5,26V8A3.5,3.5,0,0,1,6,4.5h9a1.5,1.5,0,0,1,0,3H6a.5.5,0,0,0-.5.5V26a.5.5,0,0,0,.5.5H24a.5.5,0,0,0,.5-.5V17a1.5,1.5,0,0,1,3,0v9A3.5,3.5,0,0,1,24,29.5Z"
+                            ></path>
+                            <path
+                              fill="#"
+                              d="M12,21.5a1.5,1.5,0,0,1-1.49-1.69l.56-4.36a1.52,1.52,0,0,1,.42-.87L22.35,3.73a4.19,4.19,0,1,1,5.92,5.92L17.42,20.51a1.52,1.52,0,0,1-.87.42l-4.36.56Zm4.36-2.05h0ZM14,16.34l-.25,1.93L15.66,18,26.15,7.53a1.18,1.18,0,0,0,0-1.68,1.21,1.21,0,0,0-1.68,0Z"
+                            ></path>
+                          </g>
+                        </svg>
+                      </button>
+                      <form
+                        onSubmit={newLimitHandler}
+                        data-visible={changeLimit}
+                      >
+                        <input
+                          placeholder="NEW LIMIT"
+                          type="number"
+                          name="limit"
+                        />
+                        <button type="submit">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            data-name="Layer 1"
+                            viewBox="0 0 24 24"
+                            id="save"
+                            width={21}
+                            height={21}
+                          >
+                            <path d="m20.71 9.29-6-6a1 1 0 0 0-.32-.21A1.09 1.09 0 0 0 14 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8a1 1 0 0 0-.29-.71ZM9 5h4v2H9Zm6 14H9v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1Zm4-1a1 1 0 0 1-1 1h-1v-3a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3v3H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V6.41l4 4Z"></path>
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setChangeLimit(false)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            id="close"
+                            width={24}
+                            height={24}
+                          >
+                            <path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
                   <div className="range">
                     <div
                       style={{

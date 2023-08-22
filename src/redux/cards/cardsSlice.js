@@ -4,6 +4,7 @@ import {
   changeCardStatus,
   getCards,
   newCard,
+  setLimit,
 } from "../../api/cards";
 
 const initialState = {
@@ -18,7 +19,10 @@ const initialState = {
   changeCardStatus: {
     loading: false,
   },
-  changingCardLimit: {
+  changingLimit: {
+    loading: false,
+  },
+  changingLimitTarget: {
     loading: false,
   },
 };
@@ -46,8 +50,14 @@ export const cardsSlice = createSlice({
       };
     },
     setChangingCardLimitData: (state, action) => {
-      state.changingCardLimit = {
-        ...state.changingCardLimit,
+      state.changingLimit = {
+        ...state.changingLimit,
+        ...action.payload,
+      };
+    },
+    setChangingLimitTarget: (state, action) => {
+      state.changingLimitTarget = {
+        ...state.changingLimitTarget,
         ...action.payload,
       };
     },
@@ -101,13 +111,15 @@ export const changeCardLimitAsync = (toast, id) => async (dispatch) => {
   dispatch(setChangingCardLimitData({ loading: false }));
 };
 
-export const setCardLimitAsync = (toast, id) => async (dispatch) => {
-  dispatch(setChangingCardLimitData({ loading: true }));
+export const setLimitAsync = (toast, data) => async (dispatch) => {
+  dispatch(setChangingLimitTarget({ loading: true }));
   try {
+    const response = await setLimit(data);
+    response && toast.success(response.message);
   } catch (err) {
     toast.error(err.message);
   }
-  dispatch(setChangingCardLimitData({ loading: false }));
+  dispatch(setChangingLimitTarget({ loading: false }));
 };
 
 export const {
@@ -115,6 +127,7 @@ export const {
   setNewCardData,
   setChangeCardStatusData,
   setChangingCardLimitData,
+  setChangingLimitTarget,
 } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

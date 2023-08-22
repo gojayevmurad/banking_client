@@ -8,20 +8,27 @@ import "./settings.scss";
 import { changePasswordAsync } from "../../redux/auth/authSlice";
 
 import Checkbox from "../../components/Checkbox";
-import SelectBox from "../../components/SelectBox";
 import { validationSchema, convertBase64 } from "../../utils";
 import { uploadImage } from "../../api/image";
-import { changeProfilePhotoAsync } from "../../redux/profile/profileSlice";
+import {
+  changeNotificationAsync,
+  changeProfilePhotoAsync,
+  getUserInfoesAsync,
+} from "../../redux/profile/profileSlice";
 
 const Settings = () => {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
+  const userInfoes = useSelector((state) => state.profile.userInfoes.data);
+  const userInfoesLoading = useSelector(
+    (state) => state.profile.userInfoes.loading
+  );
+
   const [newImgUrl, setNewImgUrl] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
 
-  const [notification, setNotification] = useState(true);
   const [theme, setTheme] = useState(true);
   const [language, setLanguage] = useState("English");
 
@@ -29,8 +36,6 @@ const Settings = () => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [reNewPassword, setReNewPassword] = useState("");
-
-  const userInfoes = useSelector((state) => state.profile.userInfoes.data);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -79,6 +84,18 @@ const Settings = () => {
     setNewImgUrl("");
   };
 
+  const performSequentialActions = () => {
+    return async (dispatch) => {
+      await dispatch(changeNotificationAsync(toast));
+
+      await Promise.all([dispatch(getUserInfoesAsync(toast))]);
+    };
+  };
+
+  const changeNotificationHandler = () => {
+    dispatch(performSequentialActions());
+  };
+
   return (
     <div className="settings_page">
       <h3>Parametrlər</h3>
@@ -87,19 +104,11 @@ const Settings = () => {
           <h4>Tətbiq</h4>
           <div className="notification">
             <p>Xəbərdarlıq</p>
-            <Checkbox value={notification} setValue={setNotification} />
-          </div>
-          <div className="language">
-            <p>Dil</p>
-            <SelectBox
-              option={language}
-              options={["English", "Azərbaycanca"]}
-              setOption={setLanguage}
+            <Checkbox
+              loading={userInfoesLoading}
+              value={userInfoes?.showNotification}
+              setValue={changeNotificationHandler}
             />
-          </div>
-          <div className="theme">
-            <p>Light Mode / Dark Mode</p>
-            <Checkbox value={theme} setValue={setTheme} />
           </div>
         </div>
         <div className="account">

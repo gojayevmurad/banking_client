@@ -136,10 +136,10 @@ export const getPendingTransactionsAsync = (toast) => async (dispatch) => {
 };
 
 export const acceptingTransactionAsync =
-  (toast, id, cardId) => async (dispatch) => {
+  (toast, id, cardId, categoryId) => async (dispatch) => {
     dispatch(setAcceptingTransactionsData({ loading: true }));
     try {
-      const response = await acceptTransaction(id, cardId);
+      const response = await acceptTransaction(id, cardId, categoryId);
       response && toast.success(response.message);
       dispatch(getPendingTransactionsAsync(toast));
       dispatch(getTransactionsHistoryAsync(toast));

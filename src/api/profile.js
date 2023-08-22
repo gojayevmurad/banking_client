@@ -8,4 +8,8 @@ const changeProfilePhoto = (data) => {
   return axiosClient.put("/api/user/change-profile-photo", data);
 };
 
-export { getUserInfoes, changeProfilePhoto };
+const changeNotification = (data) => {
+  return axiosClient.put("/api/user/change-notification");
+};
+
+export { getUserInfoes, changeProfilePhoto, changeNotification };

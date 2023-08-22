@@ -32,7 +32,9 @@ const MainLayout = () => {
 
   const { t } = useTranslation();
 
-  const friendsList = useSelector((state) => state.contacts.userContacts.data);
+  const showNotification = useSelector(
+    (state) => state.profile.userInfoes?.data?.showNotification
+  );
 
   const handleFocus = async () => {
     socket.emit("set_online");
@@ -65,10 +67,10 @@ const MainLayout = () => {
     };
   }, []);
 
-  useEffect(() => {
-    socket.on("notification", (data) => {
+  const callNotification = (data) => {
+    if (window.location.pathname != "/chat") {
       toast(
-          (toastData) => (
+        (toastData) => (
           <div className="toast_notification">
             <div className="img">
               <img src={data.sender_photo} />
@@ -86,8 +88,21 @@ const MainLayout = () => {
           duration: 5000,
         }
       );
-    });
+    }
+  };
+
+  useEffect(() => {
+    socket.on("notification", callNotification);
+
+    return () => {
+      socket.off("notification", callNotification);
+    };
   }, [socket]);
+
+  useEffect(() => {
+    !showNotification && socket.off("notification", callNotification);
+    showNotification && socket.on("notification", callNotification);
+  }, [showNotification]);
 
   return (
     <div className="main-layout">
